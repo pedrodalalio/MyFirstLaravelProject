@@ -223,7 +223,7 @@
                 </div>
             </div>
 
-            <div>
+            <div class="middle-content">
                 @yield('content')
             </div>
         </div>
@@ -256,6 +256,8 @@
 <!-- others plugins -->
 <script src="assets/js/plugins.js"></script>
 <script src="assets/js/scripts.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
 </body>
 
 </html>

@@ -59,29 +59,29 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="user_name">Complete name</label>
-                                <input type="text" class="form-control" id="user_name" placeholder="Complete name">
+                                <input type="text" class="form-control" id="user_name_add" placeholder="Complete name">
                             </div>
 
                             <div class="form-group col-md-6">
                                 <label for="cpf">CPF</label>
-                                <input type="text" class="form-control" id="cpf" placeholder="xxx.xxx.xxx-xx">
+                                <input type="text" class="form-control" id="cpf_add" onkeypress="$(this).mask('000.000.000-00');" placeholder="xxx.xxx.xxx-xx">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="text" class="form-control" id="email" placeholder="exempla@example.com">
+                            <input type="text" class="form-control" id="email_add" placeholder="exempla@example.com">
                         </div>
 
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="phone">Phone</label>
-                                <input type="text" class="form-control" id="phone" placeholder="(99)9999-9999">
+                                <input type="text" class="form-control" id="phone_add" onkeypress="$(this).mask('(00)00000-0000');" placeholder="(99)99999-9999">
                             </div>
 
                             <div class="form-group col-md-6">
                                 <label for="registration">UNIFAE Registration</label>
-                                <input type="text" class="form-control" id="registration" placeholder="Your registration">
+                                <input type="text" class="form-control" id="registration_add" onkeypress="$(this).mask('00000-0');" placeholder="Your registration">
                             </div>
                         </div>
                     </form>
@@ -112,29 +112,29 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="user_name">Complete name</label>
-                                <input type="text" class="form-control" id="user_name" placeholder="Complete name">
+                                <input type="text" class="form-control" id="user_name_edit" placeholder="Complete name">
                             </div>
 
                             <div class="form-group col-md-6">
                                 <label for="cpf">CPF</label>
-                                <input type="text" class="form-control" id="cpf" placeholder="xxx.xxx.xxx-xx">
+                                <input type="text" class="form-control" id="cpf_edit" onkeypress="$(this).mask('000.000.000-00');" placeholder="xxx.xxx.xxx-xx">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="text" class="form-control" id="email" placeholder="exempla@example.com">
+                            <input type="text" class="form-control" id="email_edit" placeholder="exempla@example.com">
                         </div>
 
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="phone">Phone</label>
-                                <input type="text" class="form-control" id="phone" placeholder="(99)9999-9999">
+                                <input type="text" class="form-control" id="phone_edit" onkeypress="$(this).mask('(00)00000-0000');" placeholder="(99)9999-9999">
                             </div>
 
                             <div class="form-group col-md-6">
                                 <label for="registration">UNIFAE Registration</label>
-                                <input type="text" class="form-control" id="registration" placeholder="Your registration">
+                                <input type="text" class="form-control" id="registration_edit" onkeypress="$(this).mask('00000-0');" placeholder="Your registration">
                             </div>
                         </div>
                     </form>
