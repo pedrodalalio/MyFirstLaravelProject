@@ -6,22 +6,22 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>@yield('title')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" type="image/png" href="assets/images/icon/favicon.ico">
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/themify-icons.css">
-    <link rel="stylesheet" href="assets/css/metisMenu.css">
-    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="assets/css/slicknav.min.css">
+    <link rel="shortcut icon" type="image/png" href="{{asset('images/icon/favicon.ico')}}">
+    <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/font-awesome.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/themify-icons.css')}}">
+    <link rel="stylesheet" href="{{asset('css/metisMenu.css')}}">
+    <link rel="stylesheet" href="{{asset('css/owl.carousel.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/slicknav.min.css')}}">
     <!-- amchart css -->
     <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
     <!-- others css -->
-    <link rel="stylesheet" href="assets/css/typography.css">
-    <link rel="stylesheet" href="assets/css/default-css.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="{{asset('css/typography.css')}}">
+    <link rel="stylesheet" href="{{asset('css/default-css.css')}}">
+    <link rel="stylesheet" href="{{asset('css/styles.css')}}">
+    <link rel="stylesheet" href="{{asset('css/responsive.css')}}">
     <!-- modernizr css -->
-    <script src="assets/js/vendor/modernizr-2.8.3.min.js"></script>
+    <script src="{{asset('js/vendor/modernizr-2.8.3.min.js')}}"></script>
 </head>
 
 <body>
@@ -38,6 +38,8 @@
                 <div class="menu-inner">
                     <nav>
                         <ul class="metismenu" id="menu">
+
+                            @role('viewer')
                             <li>
                                 <a href="{{route('dashboard')}}"><i class="ti-user"></i><span>Pefil</span></a>
                             </li>
@@ -45,18 +47,37 @@
                             <li>
                                 <a href="{{route('list-produtos')}}"><i class="fa fa-table"></i><span>Products</span></a>
                             </li>
+                            @endrole
 
-                            <li>
-                                <a href="{{route('list-users')}}"><i class="ti-list"></i><span>Users</span></a>
-                            </li>
+                            @role('admin')
+                                <li>
+                                    <a href="{{route('list-users')}}"><i class="ti-list"></i><span>Users</span></a>
+                                </li>
+                            @endrole
 
-                            <li>
-                                <a href="{{route('login')}}"><span>Login</span></a>
-                            </li>
+                            @guest
+                                <li>
+                                    <a href="{{route('login')}}"><span>Login</span></a>
+                                </li>
 
+                                <li>
+                                    <a href="{{route('register')}}"><span>Register</span></a>
+                                </li>
+                            @endguest
+
+                            @auth
                             <li>
-                                <a href="{{route('register')}}"><span>Register</span></a>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <div class="nav-item">
+                                        <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();this.closest('form').submit(); " role="button">
+                                            <i class="fa fa-sign-out"></i>
+                                           <span>Logout</span>
+                                        </a>
+                                    </div>
+                                </form>
                             </li>
+                            @endauth
                         </ul>
                     </nav>
                 </div>
