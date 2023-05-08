@@ -39,7 +39,7 @@
                     <nav>
                         <ul class="metismenu" id="menu">
                             <li>
-                                <a href="{{route('show-perfil')}}"><i class="ti-user"></i><span>Pefil</span></a>
+                                <a href="{{route('dashboard')}}"><i class="ti-user"></i><span>Pefil</span></a>
                             </li>
 
                             <li>
@@ -50,6 +50,13 @@
                                 <a href="{{route('list-users')}}"><i class="ti-list"></i><span>Users</span></a>
                             </li>
 
+                            <li>
+                                <a href="{{route('login')}}"><span>Login</span></a>
+                            </li>
+
+                            <li>
+                                <a href="{{route('register')}}"><span>Register</span></a>
+                            </li>
                         </ul>
                     </nav>
                 </div>

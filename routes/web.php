@@ -21,3 +21,13 @@ Route::get('/produtos', [ProductController::class, 'show'])->name('list-produtos
 //Route::get('/produtos', [ProductController::class, 'store'])->name('store-produtos');
 Route::get('/usuarios', [UserController::class, 'show'])->name('list-users');
 Route::get('/perfil', [PerfilController::class, 'show'])->name('show-perfil');
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified'
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});
