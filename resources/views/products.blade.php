@@ -6,7 +6,9 @@
 
     <div class="d-flex mt-4 mb-2">
         <h1 class="d-block">Products</h1>
-        <button class="btn btn-outline-dark ml-5" data-toggle="modal" data-target="#addProductsModalLabel">New</button>
+        @role('admin')
+            <button class="btn btn-outline-dark ml-5" data-toggle="modal" data-target="#addProductsModalLabel">New</button>
+        @endrole
     </div>
 
     <table class="table table-striped table-bordered table-secondary">
@@ -17,7 +19,9 @@
             <th scope="col">Name</th>
             <th scope="col">Description</th>
             <th scope="col">Category</th>
-            <th scope="col">Action</th>
+            @role('admin')
+                <th scope="col">Action</th>
+            @endrole
         </tr>
         </thead>
         <tbody>
@@ -27,14 +31,16 @@
             <td>Coffee</td>
             <td>Coffee beans from spain</td>
             <td>Beans</td>
-            <td class="products-icon">
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#editProductsModalLabel">
-                    <i class="ti-pencil"></i><span class="ml-1">Edit</span>
-                </button>
-                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#">
-                    <i class="ti-trash"></i><span class="ml-1">Delete</span>
-                </button>
-            </td>
+            @role('admin')
+                <td class="products-icon">
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#editProductsModalLabel">
+                        <i class="ti-pencil"></i><span class="ml-1">Edit</span>
+                    </button>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#">
+                        <i class="ti-trash"></i><span class="ml-1">Delete</span>
+                    </button>
+                </td>
+            @endrole
         </tr>
         </tbody>
     </table>

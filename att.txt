@@ -1,0 +1,161 @@
+Middleware comum:
+
+// Middleware comuns para rotas de administrador
+$adminMiddleware = [
+    'auth:sanctum',
+    'role:admin',
+    config('jetstream.auth_session'),
+    'verified',
+];
+
+Route::middleware($adminMiddleware)->group(function () {
+    Route::get('/usuarios', [UserController::class, 'show'])->name('list-users');
+});
+
+O que fazer??
+
+Se você criou o papel admin usando o pacote spatie/laravel-permission, você pode usar esse mesmo pacote para definir permissões e limitar o acesso a recursos específicos para usuários que não têm a função admin.
+
+Aqui está um exemplo de como você pode limitar o acesso a uma rota específica para usuários que têm a permissão gerenciar_usuarios, mas não têm a função admin:
+
+1 - Crie uma nova permissão chamada gerenciar_usuarios:
+
+Para criar uma nova permissão no pacote spatie/laravel-permission, você pode executar o comando em um controlador, modelo, job, ou qualquer outro lugar que faça sentido em sua aplicação. O comando deve ser semelhante ao seguinte exemplo
+
+Esse comando cria uma nova permissão chamada "gerenciar_usuarios" e a adiciona ao banco de dados.
+
+use Spatie\Permission\Models\Permission;
+
+Permission::create(['name' => 'gerenciar_usuarios']);
+
+2 - Atribua a permissão gerenciar_usuarios a qualquer função que você queira ter acesso a essa rota, exceto a função admin:
+
+Para atribuir a permissão gerenciar_usuarios a uma função específica do spatie/laravel-permission, você pode executar o comando em um seeder do banco de dados, que é um arquivo PHP que é executado uma vez para preencher o banco de dados com dados de teste ou iniciais. O comando deve ser semelhante ao seguinte exemplo:
+
+use App\Models\User;
+use Spatie\Permission\Models\Role;
+
+$role = Role::findByName('nome_da_funcao'); // encontre a função apropriada
+$permissions = ['gerenciar_usuarios'];
+
+// atribuir permissões para função, mas não para a função 'admin'
+if ($role->name !== 'admin') {
+    $role->givePermissionTo($permissions);
+}
+
+// atribuir a função 'admin' todas as permissões
+$adminRole = Role::findByName('admin');
+$adminRole->syncPermissions(Permission::all());
+
+Este comando encontra a função com o nome especificado ("nome_da_funcao") e atribui a ela a permissão "gerenciar_usuarios", a menos que a função seja a função "admin". Em seguida, o comando atribui todas as permissões a essa função "admin".
+
+3 - Proteja a rota que deseja limitar com o middleware permission:
+
+Para proteger a rota /usuarios com o middleware permission, você deve definir a rota em um arquivo web.php dentro do diretório de rotas do seu aplicativo. O comando deve ser semelhante ao seguinte exemplo:
+
+Route::middleware(['auth', 'permission:gerenciar_usuarios'])->get('/usuarios', 'UserController@show')->name('list-users');
+
+Este comando define uma rota para o URI /usuarios que usa o método GET e a ação show do controlador UserController. A rota é protegida com o middleware auth, que verifica se o usuário está autenticado, e com o middleware permission, que verifica se o usuário tem a permissão "gerenciar_usuarios". Se o usuário não atender a esses requisitos, ele será redirecionado para a página de login.
+
+Dessa forma, somente usuários que possuem a permissão gerenciar_usuarios e não têm a função admin terão acesso à rota /usuarios. Todos os usuários com a função admin terão acesso a todas as permissões do sistema.
+
+Após isso ou até antes devo salvar os dados no banco com ajax
+
+Passo a passo:
+
+1 - Crie um formulário HTML com os campos que deseja salvar no banco de dados. Por exemplo:
+
+<form id="form-dados">
+    <label for="nome">Nome:</label>
+    <input type="text" name="nome" id="nome">
+    
+    <label for="email">E-mail:</label>
+    <input type="email" name="email" id="email">
+    
+    <button type="submit">Enviar</button>
+</form>
+
+
+2 - Crie uma rota em seu arquivo routes/web.php que corresponda à URL do formulário e defina um método para receber a requisição POST. Por exemplo:
+
+Route::post('/salvar-dados', 'FormController@salvarDados');
+
+3 - Crie um controlador em app/Http/Controllers/FormController.php com o método salvarDados para salvar os dados no banco de dados. Por exemplo:
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Dados;
+
+class FormController extends Controller
+{
+    public function salvarDados(Request $request)
+    {
+        $dados = new Dados;
+        $dados->nome = $request->input('nome');
+        $dados->email = $request->input('email');
+        $dados->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Dados salvos com sucesso!'
+        ]);
+    }
+}
+
+4 - Adicione o script jQuery para enviar o formulário por Ajax no arquivo resources/views/layouts/app.blade.php. Por exemplo:
+
+<script>
+    $('#form-dados').submit(function(e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: '/salvar-dados',
+            type: 'POST',
+            data: $(this).serialize(),
+            success: function(response) {
+                alert(response.message);
+            }
+        });
+    });
+</script>
+
+5 - Certifique-se de que o jQuery está sendo incluído na página corretamente. Você pode fazer isso adicionando a seguinte linha no arquivo resources/views/layouts/app.blade.php:
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+Explicação sobre o metodo save()
+O método save() é fornecido pelo Eloquent ORM do Laravel, que é uma camada de abstração para o banco de dados que permite interagir com o banco de dados usando objetos ao invés de escrever consultas SQL diretamente.
+
+Quando você chama $dados->save(), o Eloquent constrói uma instrução SQL INSERT e a executa no banco de dados para inserir um novo registro com os valores atribuídos às propriedades do objeto $dados.
+
+É importante destacar que o modelo Dados deve estar mapeado corretamente para uma tabela no banco de dados. Para isso, é necessário que o nome da tabela correspondente seja o plural do nome do modelo (no caso, dados), ou especificar o nome da tabela através da propriedade $table no modelo.
+
+Minha pergunta -> "ou seja na migration o nome tem que ser no plural? o model tem que estar no plural?"
+
+Resposta:
+
+Sim, por convenção, o nome da tabela no banco de dados deve ser o plural do nome do modelo no Laravel. Por exemplo, se o nome do modelo é Usuario, o nome da tabela deve ser usuarios.
+
+No Laravel, essa convenção é usada por padrão e é possível sobrescrevê-la definindo a propriedade $table no modelo. Por exemplo, se você quiser que o modelo Usuario seja mapeado para a tabela users no banco de dados, pode fazer assim:
+
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Usuario extends Model
+{
+    protected $table = 'users';
+}
+
+Ao criar uma migration no Laravel, você pode definir o nome da tabela que será criada usando o método create ou table do objeto Schema. Por exemplo, para criar uma tabela usuarios, você pode fazer assim:
+
+php artisan make:migration create_usuarios_table --create=usuarios
+
+Nesse caso, o nome da migration será create_usuarios_table e o parâmetro --create informa ao Laravel que você quer criar uma nova tabela chamada usuarios.
+
+Em resumo, o nome da tabela no banco de dados deve seguir a convenção do Laravel (nome plural do modelo), mas é possível sobrescrevê-la no modelo usando a propriedade $table. Já na migration, você pode definir o nome da tabela explicitamente usando o parâmetro --create.

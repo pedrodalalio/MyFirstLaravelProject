@@ -6,7 +6,9 @@
 
     <div class="d-flex mt-4 mb-2">
         <h1 class="d-block">Users</h1>
-        <button class="btn btn-outline-dark ml-5" data-toggle="modal" data-target="#addUsersModalLabel">New</button>
+        @role('admin')
+            <button class="btn btn-outline-dark ml-5" data-toggle="modal" data-target="#addUsersModalLabel">New</button>
+        @endrole
     </div>
 
     <table class="table table-striped table-bordered table-secondary">
