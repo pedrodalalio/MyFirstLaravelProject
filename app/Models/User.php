@@ -21,6 +21,16 @@ class User extends Authenticatable
     use HasRoles;
 
     /**
+     * @var mixed
+     */
+    /**
+     * @var mixed
+     */
+    /**
+     * @var mixed
+     */
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var string[]
@@ -29,6 +39,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'cpf',
+        'phone',
+        'registration',
+        'role',
     ];
 
     /**

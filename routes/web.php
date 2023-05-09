@@ -1,6 +1,7 @@
     <?php
 
-use Illuminate\Support\Facades\Route;
+    use App\Http\Controllers\RoleController;
+    use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PerfilController;
@@ -19,17 +20,23 @@ use App\Http\Controllers\PerfilController;
 Route::get('/', [ProductController::class, 'index'])->name('home');
 Route::get('/produtos', [ProductController::class, 'show'])->name('list-produtos');
 //Route::get('/produtos', [ProductController::class, 'store'])->name('store-produtos');
+    Route::get('/perfil', [PerfilController::class, 'show'])->name('show-perfil');
 
 Route::middleware([
     'auth:sanctum',
-    'role:admin', 
+    'role:admin',
     config('jetstream.auth_session'),
     'verified'
 ])->group(function () {
-    Route::get('/usuarios', [UserController::class, 'show'])->name('list-users');
+    Route::get('/usuarios', [UserController::class, 'index'])->name('list-users');
+    Route::post('/usuarios', [UserController::class, 'store']);
 });
 
-Route::get('/perfil', [PerfilController::class, 'show'])->name('show-perfil');
+//Route::middleware(['auth'])->group(function () {
+//    Route::resource('roles', RoleController::class);
+//    Route::resource('users', UserController::class);
+//    Route::resource('products', ProductController::class);
+//});
 
 Route::middleware([
     'auth:sanctum',
@@ -44,7 +51,7 @@ Route::middleware([
 // Example for a auth with role
 // Route::middleware([
 //     'auth:sanctum',
-//     'role:admin', 
+//     'role:admin',
 //     config('jetstream.auth_session'),
 //     'verified'
 // ])->group(function () {

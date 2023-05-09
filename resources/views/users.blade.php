@@ -56,51 +56,53 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="#" method="POST">
+                    <form id="addModel">
+                        @csrf
                         <div>
                             <input type="hidden" value="#">
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="user_name_add">Complete name</label>
-                                <input type="text" class="form-control" id="user_name_add" placeholder="Complete name">
+                                <label for="name">Complete name</label>
+                                <input type="text" name="name" class="form-control" id="name" placeholder="Complete name">
                             </div>
 
                             <div class="form-group col-md-6">
-                                <label for="cpf_add">CPF</label>
-                                <input type="text" class="form-control" id="cpf_add" onkeydown="$(this).mask('000.000.000-00');" placeholder="xxx.xxx.xxx-xx">
+                                <label for="cpf">CPF</label>
+                                <input type="text" class="form-control" id="cpf"  name="cpf" onkeydown="$(this).mask('000.000.000-00');" placeholder="xxx.xxx.xxx-xx">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="email_add">Email</label>
-                            <input type="text" class="form-control" id="email_add" placeholder="exempla@example.com">
+                            <label for="email">Email</label>
+                            <input type="text" class="form-control" name="email" id="email" placeholder="exempla@example.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" name="password" id="password" placeholder="Password">
                         </div>
 
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="phone_add">Phone</label>
-                                <input type="text" class="form-control" id="phone_add" onkeydown="$(this).mask('(00)00000-0000');" placeholder="(99)99999-9999">
+                                <label for="phone">Phone</label>
+                                <input type="text" class="form-control" name="phone" id="phone" onkeydown="$(this).mask('(00)00000-0000');" placeholder="(99)99999-9999">
                             </div>
 
                             <div class="form-group col-md-6">
-                                <label for="registration_add">UNIFAE Registration</label>
-                                <input type="text" class="form-control" id="registration_add" onkeydown="$(this).mask('00000-0');" placeholder="Your registration">
+                                <label for="registration">UNIFAE Registration</label>
+                                <input type="text" class="form-control" name="registration" id="registration" onkeydown="$(this).mask('00000-0');" placeholder="Your registration">
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <p>Roles</p>
-
                                 {{-- Here will be a foreach to catch all roles of database --}}
-                                <div class="d-block">
-                                    <input id="definition_add" name="definition_add" value="admin" type="checkbox">
-                                    <label for="definition_add">Admin</label>
-                                </div>
-
-                                <input id="definitionv_add" name="definitionv_add" value="viewer" type="checkbox">
-                                <label for="definitionv_add">Viewer</label>
+                                <label for="role">Role</label>
+                                <select name="role" id="role" class="form-control">
+                                    <option value="admin">Admin</option>
+                                    <option value="viewer">Viewer</option>
+                                </select>
                             </div>
 
                             <div class="form-group col-md-6">
@@ -110,11 +112,11 @@
 
                                 {{-- And I need to think what kind of permission I will have in the system and what type is for admin and what is for the viwer. Also I need to show only the permission I clicked. Maybe I change the checkbox for a radio in the role --}}
                                 <div class="d-block">
-                                    <input id="edit_permission_add" name="edit_permission_add" value="reade" type="checkbox">
+                                    <input id="edit_permission_add" value="read" type="checkbox">
                                     <label for="edit_permission_add">Read</label>
                                 </div>
 
-                                <input id="edit_permissionv_add" name="edit_permissionv_add" value="edit" type="checkbox">
+                                <input id="edit_permissionv_add" value="edit" type="checkbox">
                                 <label for="edit_permissionv_add">Edit</label>
                             </div>
                         </div>
@@ -122,7 +124,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-info">Create user</button>
+                    <button type="button" id="btnCriar" class="btn btn-info">Create user</button>
                 </div>
             </div>
         </div>
