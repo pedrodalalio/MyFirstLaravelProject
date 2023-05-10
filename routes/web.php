@@ -22,11 +22,12 @@ Route::get('/produtos', [ProductController::class, 'show'])->name('list-produtos
 
 Route::middleware([
     'auth:sanctum',
-    'role:admin', 
+    'role:admin',
     config('jetstream.auth_session'),
     'verified'
 ])->group(function () {
     Route::get('/usuarios', [UserController::class, 'show'])->name('list-users');
+    Route::post('/usuarios', [UserController::class, 'create']);
 });
 
 Route::get('/perfil', [PerfilController::class, 'show'])->name('show-perfil');
@@ -44,7 +45,7 @@ Route::middleware([
 // Example for a auth with role
 // Route::middleware([
 //     'auth:sanctum',
-//     'role:admin', 
+//     'role:admin',
 //     config('jetstream.auth_session'),
 //     'verified'
 // ])->group(function () {
