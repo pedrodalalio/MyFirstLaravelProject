@@ -1,7 +1,6 @@
     <?php
 
-    use App\Http\Controllers\RoleController;
-    use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PerfilController;
@@ -20,7 +19,6 @@ use App\Http\Controllers\PerfilController;
 Route::get('/', [ProductController::class, 'index'])->name('home');
 Route::get('/produtos', [ProductController::class, 'show'])->name('list-produtos');
 //Route::get('/produtos', [ProductController::class, 'store'])->name('store-produtos');
-    Route::get('/perfil', [PerfilController::class, 'show'])->name('show-perfil');
 
 Route::middleware([
     'auth:sanctum',
@@ -28,15 +26,18 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified'
 ])->group(function () {
-    Route::get('/usuarios', [UserController::class, 'index'])->name('list-users');
-    Route::post('/usuarios', [UserController::class, 'store']);
+    //This controller is showing the /usuarios page
+    Route::get('/usuarios', [UserController::class, 'show'])->name('list-users');
+    //This controller is creating new user in DB
+    Route::post('/usuarios', [UserController::class, 'create']);
+
+    //This controller is getting all data from a specific user and showing in Modal Edit
+    Route::get('/usuarios/{id}', [UserController::class, 'showEdit']);
+    //This controller is editing the user
+    Route::post('/usuarios/{id}', [UserController::class, 'update']);
 });
 
-//Route::middleware(['auth'])->group(function () {
-//    Route::resource('roles', RoleController::class);
-//    Route::resource('users', UserController::class);
-//    Route::resource('products', ProductController::class);
-//});
+Route::get('/perfil', [PerfilController::class, 'show'])->name('show-perfil');
 
 Route::middleware([
     'auth:sanctum',

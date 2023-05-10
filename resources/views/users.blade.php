@@ -24,24 +24,26 @@
             <th scope="col">Action</th>
         </tr>
         </thead>
-        <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Pedro</td>
-            <td>pedrodalalio13@gmail.com</td>
-            <td>123.456.789-12</td>
-            <td>(19)9999-9999</td>
-            <td>27774-5</td>
-            <td>Viewer</td>
-            <td class="products-icon">
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#editUsersModalLabel">
-                    <i class="ti-pencil"></i><span class="ml-1">Edit</span>
-                </button>
-                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#">
-                    <i class="ti-trash"></i><span class="ml-1">Delete</span>
-                </button>
-            </td>
-        </tr>
+        <tbody id="tbodyAdd">
+        @foreach ($users as $user)
+            <tr>
+                <th scope="row">{{$user->id}}</th>
+                <td>{{$user->name}}</td>
+                <td>{{$user->email}}</td>
+                <td>{{$user->cpf}}</td>
+                <td>{{$user->phone}}</td>
+                <td>{{$user->registration}}</td>
+                <td>{{$user->role}}</td>
+                <td class="products-icon">
+                    <button type="button" value="{{$user->id}}" class="btnEdit btn btn-success" data-toggle="modal" data-target="#editUsersModalLabel">
+                        <i class="ti-pencil"></i><span class="ml-1">Edit</span>
+                    </button>
+                    <button type="button" value="{{$user->id}}" class="btnDelete btn btn-danger" data-toggle="modal" data-target="#">
+                        <i class="ti-trash"></i><span class="ml-1">Delete</span>
+                    </button>
+                </td>
+            </tr>
+        @endforeach
         </tbody>
     </table>
 
@@ -56,7 +58,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="addModel">
+                    <form id="addForm">
                         @csrf
                         <div>
                             <input type="hidden" value="#">
@@ -75,12 +77,14 @@
 
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="text" class="form-control" name="email" id="email" placeholder="exempla@example.com">
+                            <input type="email" class="form-control" name="email" id="email" placeholder="Email">
                         </div>
 
                         <div class="form-group">
                             <label for="password">Password</label>
-                            <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+                            <input type="password" class="passI form-control" name="password" id="password" placeholder="Password">
+                            <input type="checkbox" name="showPass" id="pass" class="showPass">
+                            <label class="d-inline" for="pass">Show Password</label>
                         </div>
 
                         <div class="form-row">
@@ -124,7 +128,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" id="btnCriar" class="btn btn-info">Create user</button>
+                    <button type="button" id="btnAddUser" class="btn btn-info">Create user</button>
                 </div>
             </div>
         </div>
@@ -141,43 +145,77 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="editForm">
+                        @csrf
                         <div>
-                            <input type="hidden" value="#">
+                            <input type="hidden" id="id" name="id" value="">
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="user_name_edit">Complete name</label>
-                                <input type="text" class="form-control" id="user_name_edit" placeholder="Complete name">
+                                <label for="nameEdit">Complete name</label>
+                                <input type="text" name="name" class="form-control" id="nameEdit" placeholder="Complete name">
                             </div>
 
                             <div class="form-group col-md-6">
-                                <label for="cpf_edit">CPF</label>
-                                <input type="text" class="form-control" id="cpf_edit" onkeydown="$(this).mask('000.000.000-00');" placeholder="xxx.xxx.xxx-xx">
+                                <label for="cpfEdit">CPF</label>
+                                <input type="text" class="form-control" id="cpfEdit"  name="cpf" onkeydown="$(this).mask('000.000.000-00');" placeholder="xxx.xxx.xxx-xx">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="email_edit">Email</label>
-                            <input type="text" class="form-control" id="email_edit" placeholder="exempla@example.com">
+                            <label for="emailEdit">Email</label>
+                            <input type="email" class="form-control" name="email" id="emailEdit" placeholder="Email">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="passI form-control" name="password" id="password" placeholder="Password">
+                            <input type="checkbox" name="showPass" id="pass" class="showPass">
+                            <label class="d-inline" for="pass">Show Password</label>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="phone_edit">Phone</label>
-                                <input type="text" class="form-control" id="phone_edit" onkeydown="$(this).mask('(00)00000-0000');" placeholder="(99)9999-9999">
+                                <label for="phone">Phone</label>
+                                <input type="text" class="form-control" name="phone" id="phoneEdit" onkeydown="$(this).mask('(00)00000-0000');" placeholder="(99)99999-9999">
                             </div>
 
                             <div class="form-group col-md-6">
-                                <label for="registration_edit">UNIFAE Registration</label>
-                                <input type="text" class="form-control" id="registration_edit" onkeydown="$(this).mask('00000-0');" placeholder="Your registration">
+                                <label for="registrationEdit">UNIFAE Registration</label>
+                                <input type="text" class="form-control" name="registration" id="registrationEdit" onkeydown="$(this).mask('00000-0');" placeholder="Your registration">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                {{-- Here will be a foreach to catch all roles of database --}}
+                                <label for="roleEdit">Role</label>
+                                <select name="role" id="roleEdit" class="form-control">
+                                    <option value="admin">Admin</option>
+                                    <option value="viewer">Viewer</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <p>Permission</p>
+
+                                {{-- Here will be a foreach to catch all permissions of database --}}
+
+                                {{-- And I need to think what kind of permission I will have in the system and what type is for admin and what is for the viwer. Also I need to show only the permission I clicked. Maybe I change the checkbox for a radio in the role --}}
+                                <div class="d-block">
+                                    <input id="edit_permission_add" value="read" type="checkbox">
+                                    <label for="edit_permission_add">Read</label>
+                                </div>
+
+                                <input id="edit_permissionv_add" value="edit" type="checkbox">
+                                <label for="edit_permissionv_add">Edit</label>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-info">Save changes</button>
+                    <button type="button" id="btnEditUser" class="btn btn-info">Save changes</button>
                 </div>
             </div>
         </div>
