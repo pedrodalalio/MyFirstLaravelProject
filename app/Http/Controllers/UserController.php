@@ -31,7 +31,7 @@ class UserController extends Controller
                 }
             }
 
-            $data['password'] = Hash::make('password');
+            $data['password'] = Hash::make($data['password']);
             //Alterar para password
 
             $user = [];
@@ -44,7 +44,6 @@ class UserController extends Controller
             return response()->json($user);
         }
         catch (\Exception $e){
-
             $res = [
                 'status' => '406',
                 'message' => 'error'
@@ -74,8 +73,6 @@ class UserController extends Controller
 
             return response()->json($res);
         }
-
-
     }
 
     public function update(Request $request, int $id){
@@ -84,6 +81,16 @@ class UserController extends Controller
             $data[0] = $request->all();
 
             if($data[0]['password'] == null){
+//                foreach($data[0] as $d=>$value) {
+//                    if($value === null){
+//                        $res = [
+//                            'status' => '401',
+//                            'message' => 'Field ' . $d . ' is empty'
+//                        ];
+//                        return response()->json($res);
+//                    }
+//                }
+
                 User::query()->findOrFail($request->id)->update(array(
                     'name' => $data[0]['name'],
                     'cpf' => $data[0]['cpf'],
@@ -101,12 +108,7 @@ class UserController extends Controller
                 return response()->json($data);
             }
             // User change the password
-            //$data[0]['password'] = Hash::make($data[0]['password']);
-            $data[0]['password'] = Hash::make('@@pedro123##');
-
-
-            $user = User::findOrFail($request->id)->first();
-            dd($user->save($data[0]));
+            $data[0]['password'] = Hash::make($data[0]['password']);
             User::query()->findOrFail($request->id)->update($data[0]);
 
             $data[1] = [
@@ -117,7 +119,39 @@ class UserController extends Controller
             return response()->json($data);
         }
         catch (\Exception $e){
-            dd($e->getMessage());
+
+            $res = [
+                'status' => '406',
+                'message' => 'Error'
+            ];
+            return response()->json($res);
         }
+    }
+
+    public function destroy(int $id){
+        try {
+            $res = [];
+            $res[0] = $id;
+
+            User::query()->findOrFail($id)->delete();
+
+
+            $res[1] = [
+                'status' => '200',
+                'message' => 'Deleted'
+            ];
+
+            return response()->json($res);
+        }
+        catch(\Exception $e){
+
+            $res = [
+                'status' => '404',
+                'message' => 'User Not Found'
+            ];
+
+            return response()->json($res);
+        }
+
     }
 }

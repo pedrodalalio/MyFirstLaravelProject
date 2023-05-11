@@ -26,7 +26,7 @@
         </thead>
         <tbody id="tbodyAdd">
         @foreach ($users as $user)
-            <tr>
+            <tr id="tr-{{$user->id}}">
                 <th scope="row">{{$user->id}}</th>
                 <td>{{$user->name}}</td>
                 <td>{{$user->email}}</td>
@@ -176,7 +176,7 @@
 
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="phone">Phone</label>
+                                <label for="phoneEdit">Phone</label>
                                 <input type="text" class="form-control" name="phone" id="phoneEdit" onkeydown="$(this).mask('(00)00000-0000');" placeholder="(99)99999-9999">
                             </div>
 

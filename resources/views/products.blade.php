@@ -24,24 +24,26 @@
             @endrole
         </tr>
         </thead>
-        <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>993</td>
-            <td>Coffee</td>
-            <td>Coffee beans from spain</td>
-            <td>Beans</td>
-            @role('admin')
-                <td class="products-icon">
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#editProductsModalLabel">
-                        <i class="ti-pencil"></i><span class="ml-1">Edit</span>
-                    </button>
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#">
-                        <i class="ti-trash"></i><span class="ml-1">Delete</span>
-                    </button>
-                </td>
-            @endrole
-        </tr>
+        <tbody id="tbodyEdit">
+        @foreach($products as $product)
+            <tr id="tre-{{$product->id}}">
+                <th scope="row">{{$product->id}}</th>
+                <td>{{$product->product_code}}</td>
+                <td>{{$product->name}}</td>
+                <td>{{$product->description}}</td>
+                <td>{{$product->category}}</td>
+                @role('admin')
+                    <td class="products-icon">
+                        <button type="button" value="{{$product->id}}" class="btnEditProduct btn btn-success" data-toggle="modal" data-target="#editProductsModalLabel">
+                            <i class="ti-pencil"></i><span class="ml-1">Edit</span>
+                        </button>
+                        <button type="button" value="{{$product->id}}" class="btnDeleteProduct btn btn-danger" data-toggle="modal" data-target="#">
+                            <i class="ti-trash"></i><span class="ml-1">Delete</span>
+                        </button>
+                    </td>
+                @endrole
+            </tr>
+        @endforeach
         </tbody>
     </table>
 
@@ -56,18 +58,19 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="addFormProduct">
+                        @csrf
                         <div>
                             <input type="hidden" value="#">
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="name">Name</label>
-                                <input type="text" class="form-control" id="name" placeholder="Name">
+                                <input type="text" name="name" class="form-control" id="name" placeholder="Name">
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="code">Product code</label>
-                                <input type="text" class="form-control" id="code" placeholder="Product code">
+                                <label for="product_code">Product code</label>
+                                <input type="text" name="product_code" class="form-control" id="product_code" placeholder="Product code">
                             </div>
                         </div>
                         <div class="form-group">
@@ -77,12 +80,17 @@
 
                         <div class="form-group">
                             <label for="category">Category</label>
+                            <select class="form-control" name="category" id="category">
+                                <option value="food">Food</option>
+                                <option value="drink">Drink</option>
+                                <option value="fit">Fit</option>
+                            </select>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-info">Create product</button>
+                    <button type="button" id="btnAddProduct" class="btn btn-info">Create product</button>
                 </div>
             </div>
         </div>
@@ -99,11 +107,39 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    ...
+                    <form id="editFormProduct">
+                        @csrf
+                        <div>
+                            <input type="hidden" value="#" id="idProduct" name="idProduct">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="nameEditP">Name</label>
+                                <input type="text" class="form-control" id="nameEditP" placeholder="Name">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="codeEditP">Product code</label>
+                                <input type="text" class="form-control" id="codeEditP" placeholder="Product code">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="descriptionEditP">Description</label>
+                            <textarea class="d-block" name="description" id="descriptionEditP" placeholder="Describe your product" cols="59"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="categoryEditP">Category</label>
+                            <select class="form-control" name="category" id="categoryEditP">
+                                <option value="food">Food</option>
+                                <option value="drink">Drink</option>
+                                <option value="fit">Fit</option>
+                            </select>
+                        </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-info">Save changes</button>
+                    <button type="button" id="btnFormEditProduct" class="btn btn-info">Save changes</button>
                 </div>
             </div>
         </div>

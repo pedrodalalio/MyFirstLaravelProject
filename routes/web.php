@@ -15,10 +15,8 @@ use App\Http\Controllers\PerfilController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('/', [ProductController::class, 'index'])->name('home');
-Route::get('/produtos', [ProductController::class, 'show'])->name('list-produtos');
-//Route::get('/produtos', [ProductController::class, 'store'])->name('store-produtos');
+Route::get('/perfil', [PerfilController::class, 'show'])->name('show-perfil');
 
 Route::middleware([
     'auth:sanctum',
@@ -35,9 +33,30 @@ Route::middleware([
     Route::get('/usuarios/{id}', [UserController::class, 'showEdit']);
     //This controller is editing the user
     Route::post('/usuarios/{id}', [UserController::class, 'update']);
+
+    //This controller is deleting data from a user
+    Route::get('/usuarios/delete/{id}', [UserController::class, 'destroy']);
 });
 
-Route::get('/perfil', [PerfilController::class, 'show'])->name('show-perfil');
+    Route::middleware([
+        'auth:sanctum',
+        'role:admin',
+        config('jetstream.auth_session'),
+        'verified'
+    ])->group(function () {
+        //This controller is showing the /produtos page
+        Route::get('/produtos', [ProductController::class, 'show'])->name('list-produtos');
+        //This controller is creating new product in DB
+        Route::post('/produtos', [ProductController::class, 'create']);
+
+        //This controller is getting all data from a specific product and showing in Modal Edit
+        Route::get('/produtos/{id}', [ProductController::class, 'showEdit']);
+        //This controller is editing the product
+        Route::post('/produtos/{id}', [ProductController::class, 'update']);
+
+        //This controller is deleting data from a product
+        Route::get('/produtos/delete/{id}', [ProductController::class, 'destroy']);
+    });
 
 Route::middleware([
     'auth:sanctum',
