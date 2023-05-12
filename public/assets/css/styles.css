@@ -2846,3 +2846,7 @@ table.dataTable thead td {
 .middle-content{
     padding: 1%;
 }
+
+.modal-footer{
+    padding-top: 0;
+}

@@ -39,7 +39,6 @@
                     <nav>
                         <ul class="metismenu" id="menu">
 
-                            @role('viewer')
                             <li>
                                 <a href="{{route('dashboard')}}"><i class="ti-user"></i><span>Pefil</span></a>
                             </li>
@@ -47,13 +46,10 @@
                             <li>
                                 <a href="{{route('list-produtos')}}"><i class="fa fa-table"></i><span>Products</span></a>
                             </li>
-                            @endrole
 
-                            @role('admin')
                                 <li>
                                     <a href="{{route('list-users')}}"><i class="ti-list"></i><span>Users</span></a>
                                 </li>
-                            @endrole
 
                             @guest
                                 <li>

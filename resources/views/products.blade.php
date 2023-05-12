@@ -6,9 +6,10 @@
 
     <div class="d-flex mt-4 mb-2">
         <h1 class="d-block">Products</h1>
-        @role('admin')
+        @can('add products')
             <button class="btn btn-outline-dark ml-5" data-toggle="modal" data-target="#addProductsModalLabel">New</button>
-        @endrole
+        @endcan
+
     </div>
 
     <table class="table table-striped table-bordered table-secondary">
@@ -19,9 +20,7 @@
             <th scope="col">Name</th>
             <th scope="col">Description</th>
             <th scope="col">Category</th>
-            @role('admin')
-                <th scope="col">Action</th>
-            @endrole
+            <th scope="col">Action</th>
         </tr>
         </thead>
         <tbody id="tbodyEdit">
@@ -32,16 +31,18 @@
                 <td>{{$product->name}}</td>
                 <td>{{$product->description}}</td>
                 <td>{{$product->category}}</td>
-                @role('admin')
                     <td class="products-icon">
-                        <button type="button" value="{{$product->id}}" class="btnEditProduct btn btn-success" data-toggle="modal" data-target="#editProductsModalLabel">
-                            <i class="ti-pencil"></i><span class="ml-1">Edit</span>
-                        </button>
-                        <button type="button" value="{{$product->id}}" class="btnDeleteProduct btn btn-danger" data-toggle="modal" data-target="#">
-                            <i class="ti-trash"></i><span class="ml-1">Delete</span>
-                        </button>
+                        @can('edit products')
+                            <button type="button" value="{{$product->id}}" class="btnEditProduct btn btn-success" data-toggle="modal" data-target="#editProductsModalLabel">
+                                <i class="ti-pencil"></i><span class="ml-1">Edit</span>
+                            </button>
+                        @endcan
+                        @can('delete products')
+                            <button type="button" value="{{$product->id}}" class="btnDeleteProduct btn btn-danger" data-toggle="modal" data-target="#">
+                                <i class="ti-trash"></i><span class="ml-1">Delete</span>
+                            </button>
+                        @endcan
                     </td>
-                @endrole
             </tr>
         @endforeach
         </tbody>

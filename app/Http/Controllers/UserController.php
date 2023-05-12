@@ -19,7 +19,6 @@ class UserController extends Controller
 
         try {
             $data = $request->all();
-
             //Verify if all inputs is filled
             foreach($data as $d){
                 if($d == null){
@@ -32,10 +31,9 @@ class UserController extends Controller
             }
 
             $data['password'] = Hash::make($data['password']);
-            //Alterar para password
 
             $user = [];
-            $user[0] = User::create($data)->assignRole('viewer');
+            $user[0] = User::create($data)->givePermissionTo($data['permission']);
 
             $user[1] = [
                 'status' => '201',

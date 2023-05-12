@@ -1,6 +1,7 @@
     <?php
 
-use Illuminate\Support\Facades\Route;
+    use App\Http\Controllers\PermissionController;
+    use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PerfilController;
@@ -20,17 +21,22 @@ Route::get('/perfil', [PerfilController::class, 'show'])->name('show-perfil');
 
 Route::middleware([
     'auth:sanctum',
-    'role:admin',
+    //'permission:add products',
     config('jetstream.auth_session'),
     'verified'
 ])->group(function () {
     //This controller is showing the /usuarios page
     Route::get('/usuarios', [UserController::class, 'show'])->name('list-users');
+
+    //This controller get the name of the permissions
+    Route::get('/usuarios/permission', [PermissionController::class, 'showPermissions']);
+
     //This controller is creating new user in DB
     Route::post('/usuarios', [UserController::class, 'create']);
 
     //This controller is getting all data from a specific user and showing in Modal Edit
     Route::get('/usuarios/{id}', [UserController::class, 'showEdit']);
+
     //This controller is editing the user
     Route::post('/usuarios/{id}', [UserController::class, 'update']);
 
@@ -38,25 +44,31 @@ Route::middleware([
     Route::get('/usuarios/delete/{id}', [UserController::class, 'destroy']);
 });
 
-    Route::middleware([
-        'auth:sanctum',
-        'role:admin',
-        config('jetstream.auth_session'),
-        'verified'
-    ])->group(function () {
-        //This controller is showing the /produtos page
-        Route::get('/produtos', [ProductController::class, 'show'])->name('list-produtos');
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified'
+])->group(function () {
+
+    Route::get('/produtos', [ProductController::class, 'show'])->name('list-produtos');
+
+    Route::group(['middleware' => ['permission:add products']], function () {
         //This controller is creating new product in DB
         Route::post('/produtos', [ProductController::class, 'create']);
+    });
 
+    Route::group(['middleware' => ['permission:edit products']], function () {
         //This controller is getting all data from a specific product and showing in Modal Edit
         Route::get('/produtos/{id}', [ProductController::class, 'showEdit']);
         //This controller is editing the product
         Route::post('/produtos/{id}', [ProductController::class, 'update']);
+    });
 
+    Route::group(['middleware' => ['permission:delete products']], function () {
         //This controller is deleting data from a product
         Route::get('/produtos/delete/{id}', [ProductController::class, 'destroy']);
     });
+});
 
 Route::middleware([
     'auth:sanctum',
@@ -67,15 +79,3 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
-
-// Example for a auth with role
-// Route::middleware([
-//     'auth:sanctum',
-//     'role:admin',
-//     config('jetstream.auth_session'),
-//     'verified'
-// ])->group(function () {
-//     Route::get('/admin', function () {
-//         return view('admin.index');
-//     })->name('admin');
-// });

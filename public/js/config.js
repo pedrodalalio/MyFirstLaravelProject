@@ -2,8 +2,7 @@
 $(document).ready(function(){
     $('.showPass').on('click', function(){
         let passInput=$(".passI");
-        if(passInput.attr('type')==='password')
-        {
+        if(passInput.attr('type')==='password') {
             passInput.attr('type','text');
         }else{
             passInput.attr('type','password');
@@ -12,6 +11,26 @@ $(document).ready(function(){
 })
 
 // ========== USER ==========
+
+// Ajax to get permissions name
+$('.newUserBtn').click(function (){
+    $.ajax({
+        url: '/usuarios/permission',
+        type: 'GET',
+        success: function (response) {
+            console.log(response);
+
+            for (let i = 0; i < response.length; i++) {
+                $('.permissionsDiv').append('' +
+                    '<div class="w-4 m-2">' +
+                        '<input name="permission[]" type="checkbox" id="permission-' + response[i].id + '" value="' + response[i].name + '">' +
+                        '<label class="ml-1" for="permission-' + response[i].id + '">' + response[i].name + '</label>' +
+                    '</div>'
+                );
+            }
+        }
+    });
+});
 
 // Ajax creating new user
 $('#btnAddUser').click(function (){
@@ -28,7 +47,7 @@ $('#btnAddUser').click(function (){
                 return false;
             }
 
-            if(response[1].status === '406'){
+            if(response.status === '406'){
                 alert('Error');
             }
             else{
@@ -190,7 +209,7 @@ $('#btnAddProduct').click(function (){
                         '</button>' +
                     '</td>' +
                 '</tr>'
-                );
+            );
             $('#addProductsModalLabel').modal('hide');
         }
     });
@@ -199,7 +218,7 @@ $('#btnAddProduct').click(function (){
 // Ajax showing edit product
 $(document).on('click', '.btnEditProduct', function (){
     let id = $(this).val();
-    
+
     $.ajax({
         url: "/produtos/" + id,
         type: "GET",
@@ -279,7 +298,7 @@ $(document).on('click', '.btnDeleteProduct ', function () {
                 if(response.status === '404'){
                     alert('Error, Product not exist');
                 }
- 
+
                 $('#tre-' + response[0]).html("");
             }
         });
