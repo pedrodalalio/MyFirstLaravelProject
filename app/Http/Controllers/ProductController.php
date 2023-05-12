@@ -52,15 +52,73 @@ class ProductController extends Controller
     }
 
     public function showEdit(int $id){
+        try {
+            $res = [];
+            $res[0] = Product::query()->findOrFail($id);
 
+            $res[1] = [
+                'status' => '201',
+                'message' => 'Dados Editados Com Sucesso!'
+            ];
+
+            return response()->json($res);
+        }
+        catch(\Exception $e){
+            $res = [
+                'status' => '404',
+                'message' => 'Product Not Found'
+            ];
+
+            return response()->json($res);
+        }
     }
 
     public function update(Request $request, int $id){
+        try {
+            $data = [];
+            $data[0] = $request->all();
 
+            Product::query()->findOrFail($id)->update($data[0]);
+
+            $data[1] = [
+                'status' => '201',
+                'message' => 'Data Updated!'
+            ];
+
+            return response()->json($data);
+        }
+        catch (\Exception $e){
+            $res = [
+                'status' => '406',
+                'message' => 'Error'
+            ];
+            return response()->json($res);
+        }
     }
+
     public function destroy(int $id){
+        try {
+            $res = [];
+            $res[0] = $id;
 
+            Product::query()->findOrFail($id)->delete();
+
+
+            $res[1] = [
+                'status' => '200',
+                'message' => 'Deleted'
+            ];
+
+            return response()->json($res);
+        }
+        catch(\Exception $e){
+
+            $res = [
+                'status' => '404',
+                'message' => 'Product Not Found'
+            ];
+
+            return response()->json($res);
+        }
     }
-
-
 }

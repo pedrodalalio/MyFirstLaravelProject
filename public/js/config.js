@@ -11,6 +11,8 @@ $(document).ready(function(){
     })
 })
 
+// ========== USER ==========
+
 // Ajax creating new user
 $('#btnAddUser').click(function (){
     $.ajax({
@@ -57,8 +59,8 @@ $('#btnAddUser').click(function (){
     });
 });
 
-// Ajax showing edit user
-$('.btnEdit').click(function () {
+// Ajax showing edit use
+$(document).on('click', '.btnEdit', function (){
     let id = $(this).val();
 
     $.ajax({
@@ -151,6 +153,8 @@ $(document).on('click', '.btnDelete', function (){
    }
 });
 
+// ========== PRODUCT ==========
+
 // Ajax creating new product
 $('#btnAddProduct').click(function (){
     $.ajax({
@@ -170,13 +174,114 @@ $('#btnAddProduct').click(function (){
             }
 
             $('#tbodyEdit').append('' +
-                'ok');
+                '<tr id="tre-'+ response[0].id + '">' +
+                    '<th scope="row">'+ response[0].id +'</th>' +
+                    '<td>'+ response[0].product_code +'</td>' +
+                    '<td>'+ response[0].name +'</td>' +
+                    '<td>'+ response[0].description +'</td>' +
+                    '<td>'+ response[0].category +'</td>' +
+                    '<td class="products-icon">' +
+                        '<button type="button" value="'+ response[0].id +'" class="btnEditProduct btn btn-success" data-toggle="modal" data-target="#editProductsModalLabel">' +
+                            '<i class="ti-pencil"></i><span class="ml-1">Edit</span>' +
+                        '</button>' +
+
+                        '<button type="button" value="'+ response[0].id +'" class="btnDeleteProduct btn btn-danger" data-toggle="modal" data-target="#">' +
+                        '<i class="ti-trash"></i><span class="ml-1">Delete</span>' +
+                        '</button>' +
+                    '</td>' +
+                '</tr>'
+                );
             $('#addProductsModalLabel').modal('hide');
         }
     });
 });
+
 // Ajax showing edit product
+$(document).on('click', '.btnEditProduct', function (){
+    let id = $(this).val();
+    
+    $.ajax({
+        url: "/produtos/" + id,
+        type: "GET",
+        data: id,
+        success: function (response) {
+            console.log(response[0].id);
+
+            if(response[1].status === '404'){
+                alert('Error, Product not exist');
+            }
+
+            $('#idEditP').val(response[0].id)
+            $('#nameEditP').val(response[0].name);
+            $('#product_codeEditP').val(response[0].product_code);
+            $('#descriptionEditP').val(response[0].description);
+            $('#categoryEditP').val(response[0].category);
+        }
+    });
+});
 
 // Ajax editing product
+$('#btnFormEditProduct').click(function (){
+    let id = $('#idEditP').val();
+
+    $.ajax({
+        url: '/produtos/' + id,
+        type: 'POST',
+        data: $('#editFormProduct').serialize(),
+        success: function(response) {
+
+            console.log(response);
+            if(response.status === '406'){
+                alert(response.message);
+                return false;
+            }
+
+            $('#tre-' + response[0].id).html('');
+            $('#tre-' + response[0].id).append(
+                //'<tr id="tre-' + response[0].id + '">' +
+                    '<th scope="row">'+ response[0].id +'</th>' +
+                    '<td>'+ response[0].product_code +'</td>' +
+                    '<td>'+ response[0].name +'</td>' +
+                    '<td>'+ response[0].description +'</td>' +
+                    '<td>'+ response[0].category +'</td>' +
+                    '<td class="products-icon">' +
+                        '<button type="button" value="'+ response[0].id +'" class="btnEditProduct btn btn-success" data-toggle="modal" data-target="#editProductsModalLabel">' +
+                            '<i class="ti-pencil"></i><span class="ml-1">Edit</span>' +
+                        '</button>' +
+
+                        '<button type="button" value="'+ response[0].id +'" class="btnDeleteProduct btn btn-danger" data-toggle="modal" data-target="#">' +
+                            '<i class="ti-trash"></i><span class="ml-1">Delete</span>' +
+                        '</button>' +
+                    '</td>' +
+                '</tr>'
+            );
+
+            $('#editProductsModalLabel').modal('hide');
+        }
+    });
+});
 
 // Ajax deleting product
+$(document).on('click', '.btnDeleteProduct ', function () {
+
+    let id = $(this).val();
+    let confirmation;
+    confirmation = confirm("You want to delete the product id: " + id);
+
+    if(confirmation){
+        $.ajax({
+            url: "/produtos/delete/" + id,
+            type: "GET",
+            data: id,
+            success: function (response) {
+                console.log(response);
+
+                if(response.status === '404'){
+                    alert('Error, Product not exist');
+                }
+ 
+                $('#tre-' + response[0]).html("");
+            }
+        });
+    }
+});

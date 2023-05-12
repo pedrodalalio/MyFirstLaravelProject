@@ -81,15 +81,6 @@ class UserController extends Controller
             $data[0] = $request->all();
 
             if($data[0]['password'] == null){
-//                foreach($data[0] as $d=>$value) {
-//                    if($value === null){
-//                        $res = [
-//                            'status' => '401',
-//                            'message' => 'Field ' . $d . ' is empty'
-//                        ];
-//                        return response()->json($res);
-//                    }
-//                }
 
                 User::query()->findOrFail($request->id)->update(array(
                     'name' => $data[0]['name'],
@@ -152,6 +143,5 @@ class UserController extends Controller
 
             return response()->json($res);
         }
-
     }
 }

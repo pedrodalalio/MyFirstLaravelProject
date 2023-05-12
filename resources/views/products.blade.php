@@ -66,21 +66,21 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="name">Name</label>
-                                <input type="text" name="name" class="form-control" id="name" placeholder="Name">
+                                <input type="text" name="name" class="form-control" id="nameAddP" placeholder="Name">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="product_code">Product code</label>
-                                <input type="text" name="product_code" class="form-control" id="product_code" placeholder="Product code">
+                                <input type="text" name="product_code" class="form-control" id="product_codeAddP" placeholder="Product code">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="description">Description</label>
-                            <textarea class="d-block" name="description" id="description" placeholder="Describe your product" cols="59"></textarea>
+                            <textarea class="d-block" name="description" id="descriptionAddP" placeholder="Describe your product" cols="59"></textarea>
                         </div>
 
                         <div class="form-group">
                             <label for="category">Category</label>
-                            <select class="form-control" name="category" id="category">
+                            <select class="form-control" name="category" id="categoryAddP">
                                 <option value="food">Food</option>
                                 <option value="drink">Drink</option>
                                 <option value="fit">Fit</option>
@@ -110,16 +110,16 @@
                     <form id="editFormProduct">
                         @csrf
                         <div>
-                            <input type="hidden" value="#" id="idProduct" name="idProduct">
+                            <input type="hidden" id="idEditP" name="id">
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="nameEditP">Name</label>
-                                <input type="text" class="form-control" id="nameEditP" placeholder="Name">
+                                <input type="text" class="form-control" name="name" id="nameEditP" placeholder="Name">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="codeEditP">Product code</label>
-                                <input type="text" class="form-control" id="codeEditP" placeholder="Product code">
+                                <input type="text" class="form-control" name="product_code" id="product_codeEditP" placeholder="Product code">
                             </div>
                         </div>
                         <div class="form-group">
