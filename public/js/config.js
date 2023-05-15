@@ -1,4 +1,3 @@
-//config input password to show
 $(document).ready(function(){
     $('.showPass').on('click', function(){
         let passInput=$(".passI");
@@ -18,12 +17,12 @@ $('.newUserBtn').click(function (){
         url: '/usuarios/permission',
         type: 'GET',
         success: function (response) {
-            console.log(response);
+            $('.permissionsDiv').html("");
 
             for (let i = 0; i < response.length; i++) {
                 $('.permissionsDiv').append('' +
                     '<div class="w-4 m-2">' +
-                        '<input name="permission[]" type="checkbox" id="permission-' + response[i].id + '" value="' + response[i].name + '">' +
+                        '<input name="permissions[]" type="checkbox" id="permission-' + response[i].id + '" value="' + response[i].name + '">' +
                         '<label class="ml-1" for="permission-' + response[i].id + '">' + response[i].name + '</label>' +
                     '</div>'
                 );
@@ -39,8 +38,6 @@ $('#btnAddUser').click(function (){
         type: 'POST',
         data: $('#addForm').serialize(),
         success: function(response) {
-            //console.log(response);
-
             // Alert for empty field
             if(response.status === '412'){
                 alert(response.message);
@@ -59,14 +56,14 @@ $('#btnAddUser').click(function (){
                     '<td>' + response[0].cpf + '</td>' +
                     '<td>' + response[0].phone + '</td>' +
                     '<td>' + response[0].registration + '</td>' +
-                    '<td>' + response[0].role + '</td>' +
+                    '<td>' + response[0].strPermission + '</td>' +
                     '<td class="products-icon">' +
                     '<button type="button" value="'+response[0].id+'" class="btnEdit btn btn-success" data-toggle="modal"\n' + 'data-target="#editUsersModalLabel">' +
-                    '<i class="ti-pencil"></i><span class="ml-1">Edit</span>' +
+                    '<i class="ti-pencil"></i>' +
                     '</button>' +
 
                     '<button type="button" value="'+response[0].id+'" class="btnDelete btn btn-danger" data-toggle="modal"\n' + 'data-target="#">' +
-                    '<i class="ti-trash"></i><span class="ml-1">Delete</span>' +
+                    '<i class="ti-trash"></i>' +
                     '</button>' +
                     '</td>' +
                     '</tr>'
@@ -87,8 +84,6 @@ $(document).on('click', '.btnEdit', function (){
         type: 'GET',
         data: id,
         success: function(response) {
-            //console.log(response);
-
             if(response[1].status === '404'){
                 alert('Error, User not exist');
             }
@@ -99,7 +94,27 @@ $(document).on('click', '.btnEdit', function (){
                 $('#cpfEdit').val(response[0].cpf);
                 $('#phoneEdit').val(response[0].phone);
                 $('#registrationEdit').val(response[0].registration);
-                $('#roleEdit').val(response[0].role);
+
+                $('.permissionsDiv').html("");
+
+                for(let i = 0; i < response[2].length; i++){
+                    if(response[3].includes(response[2][i])){
+                        $('.permissionsDiv').append('' +
+                            '<div class="w-4 m-2">' +
+                            '<input name="permissions[]" type="checkbox" id="permission-' + response[3][i] + '" value="' + response[4][i] + '" checked>' +
+                            '<label class="ml-1" for="permission-' + response[3][i] + '">' + response[4][i] + '</label>' +
+                            '</div>'
+                        );
+                    }
+                    else{
+                        $('.permissionsDiv').append('' +
+                            '<div class="w-4 m-2">' +
+                            '<input name="permissions[]" type="checkbox" id="permission-' + response[3][i] + '" value="' + response[4][i] + '">' +
+                            '<label class="ml-1" for="permission-' + response[3][i] + '">' + response[4][i] + '</label>' +
+                            '</div>'
+                        );
+                    }
+                }
             }
         }
     });
@@ -132,15 +147,15 @@ $('#btnEditUser').click(function (){
                 '<td>' + response[0].cpf + '</td>' +
                 '<td>' + response[0].phone + '</td>' +
                 '<td>' + response[0].registration + '</td>' +
-                '<td>' + response[0].role + '</td>' +
+                '<td>' + response[0].permissions + '</td>' +
                 '            <td class="products-icon">\n' +
                 '                <button type="button" value="'+ response[0].id + '" class="btnEdit btn btn-success" data-toggle="modal"\n' +
                 '                        data-target="#editUsersModalLabel">\n' +
-                '                    <i class="ti-pencil"></i><span class="ml-1">Edit</span>\n' +
+                '                    <i class="ti-pencil"></i>\n' +
                 '                </button>\n' +
                 '                <button type="button" value="'+ response[0].id +'" class="btnDelete btn btn-danger" data-toggle="modal"\n' +
                 '                        data-target="#">\n' +
-                '                    <i class="ti-trash"></i><span class="ml-1">Delete</span>\n' +
+                '                    <i class="ti-trash"></i>\n' +
                 '                </button>\n' +
                 '            </td>');
             $('#editUsersModalLabel').modal('hide');
@@ -201,11 +216,11 @@ $('#btnAddProduct').click(function (){
                     '<td>'+ response[0].category +'</td>' +
                     '<td class="products-icon">' +
                         '<button type="button" value="'+ response[0].id +'" class="btnEditProduct btn btn-success" data-toggle="modal" data-target="#editProductsModalLabel">' +
-                            '<i class="ti-pencil"></i><span class="ml-1">Edit</span>' +
+                            '<i class="ti-pencil"></i>' +
                         '</button>' +
 
                         '<button type="button" value="'+ response[0].id +'" class="btnDeleteProduct btn btn-danger" data-toggle="modal" data-target="#">' +
-                        '<i class="ti-trash"></i><span class="ml-1">Delete</span>' +
+                            '<i class="ti-trash"></i>' +
                         '</button>' +
                     '</td>' +
                 '</tr>'
@@ -265,11 +280,11 @@ $('#btnFormEditProduct').click(function (){
                     '<td>'+ response[0].category +'</td>' +
                     '<td class="products-icon">' +
                         '<button type="button" value="'+ response[0].id +'" class="btnEditProduct btn btn-success" data-toggle="modal" data-target="#editProductsModalLabel">' +
-                            '<i class="ti-pencil"></i><span class="ml-1">Edit</span>' +
+                            '<i class="ti-pencil"></i>' +
                         '</button>' +
 
                         '<button type="button" value="'+ response[0].id +'" class="btnDeleteProduct btn btn-danger" data-toggle="modal" data-target="#">' +
-                            '<i class="ti-trash"></i><span class="ml-1">Delete</span>' +
+                            '<i class="ti-trash"></i>' +
                         '</button>' +
                     '</td>' +
                 '</tr>'

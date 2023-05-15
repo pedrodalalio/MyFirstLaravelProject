@@ -38,26 +38,22 @@
                 <div class="menu-inner">
                     <nav>
                         <ul class="metismenu" id="menu">
+                            @auth
+                                <li>
+                                    <a href="{{route('dashboard')}}"><i class="ti-user"></i><span>Pefil</span></a>
+                                </li>
 
-                            <li>
-                                <a href="{{route('dashboard')}}"><i class="ti-user"></i><span>Pefil</span></a>
-                            </li>
-
-                            <li>
-                                <a href="{{route('list-produtos')}}"><i class="fa fa-table"></i><span>Products</span></a>
-                            </li>
+                                <li>
+                                    <a href="{{route('list-produtos')}}"><i class="fa fa-table"></i><span>Products</span></a>
+                                </li>
 
                                 <li>
                                     <a href="{{route('list-users')}}"><i class="ti-list"></i><span>Users</span></a>
                                 </li>
-
+                            @endauth
                             @guest
                                 <li>
                                     <a href="{{route('login')}}"><span>Login</span></a>
-                                </li>
-
-                                <li>
-                                    <a href="{{route('register')}}"><span>Register</span></a>
                                 </li>
                             @endguest
 

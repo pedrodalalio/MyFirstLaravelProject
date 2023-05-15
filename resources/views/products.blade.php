@@ -34,12 +34,12 @@
                     <td class="products-icon">
                         @can('edit products')
                             <button type="button" value="{{$product->id}}" class="btnEditProduct btn btn-success" data-toggle="modal" data-target="#editProductsModalLabel">
-                                <i class="ti-pencil"></i><span class="ml-1">Edit</span>
+                                <i class="ti-pencil"></i>
                             </button>
                         @endcan
                         @can('delete products')
                             <button type="button" value="{{$product->id}}" class="btnDeleteProduct btn btn-danger" data-toggle="modal" data-target="#">
-                                <i class="ti-trash"></i><span class="ml-1">Delete</span>
+                                <i class="ti-trash"></i>
                             </button>
                         @endcan
                     </td>

@@ -41,6 +41,7 @@ class User extends Authenticatable
         'password',
         'cpf',
         'phone',
+        'permissions',
         'registration',
         'role',
     ];

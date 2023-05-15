@@ -31,13 +31,13 @@
                 <td>{{$user->cpf}}</td>
                 <td>{{$user->phone}}</td>
                 <td>{{$user->registration}}</td>
-                <td>{{$user->permission}}</td>
+                <td>{{$user->permissions}}</td>
                 <td class="products-icon">
                     <button type="button" value="{{$user->id}}" class="btnEdit btn btn-success" data-toggle="modal" data-target="#editUsersModalLabel">
-                        <i class="ti-pencil"></i><span class="ml-1">Edit</span>
+                        <i class="ti-pencil"></i>
                     </button>
                     <button type="button" value="{{$user->id}}" class="btnDelete btn btn-danger" data-toggle="modal" data-target="#">
-                        <i class="ti-trash"></i><span class="ml-1">Delete</span>
+                        <i class="ti-trash"></i>
                     </button>
                 </td>
             </tr>
@@ -164,29 +164,9 @@
                             </div>
                         </div>
 
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                {{-- Here will be a foreach to catch all roles of database --}}
-                                <label for="roleEdit">Role</label>
-                                <select name="role" id="roleEdit" class="form-control">
-                                    <option value="admin">Admin</option>
-                                    <option value="viewer">Viewer</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <p>Permission</p>
-
-                                {{-- Here will be a foreach to catch all permissions of database --}}
-
-                                {{-- And I need to think what kind of permission I will have in the system and what type is for admin and what is for the viwer. Also I need to show only the permission I clicked. Maybe I change the checkbox for a radio in the role --}}
-                                <div class="d-block">
-                                    <input id="edit_permission_add" value="read" type="checkbox">
-                                    <label for="edit_permission_add">Read</label>
-                                </div>
-
-                                <input id="edit_permissionv_add" value="edit" type="checkbox">
-                                <label for="edit_permissionv_add">Edit</label>
+                        <div class="form-group">
+                            <p>Permission</p>
+                            <div class="permissionsDiv d-flex justify-content-between">
                             </div>
                         </div>
                     </form>
