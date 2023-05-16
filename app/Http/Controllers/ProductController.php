@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
-{
+class ProductController extends Controller{
 
     //this index is only returning the home page
     public function index(){
@@ -21,7 +20,6 @@ class ProductController extends Controller
     public function create(Request $request){
         try {
             $data = $request->all();
-
             foreach($data as $d){
                 if($d == null){
                     $res = [

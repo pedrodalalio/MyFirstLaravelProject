@@ -24,7 +24,7 @@ Route::middleware([
     //'permission:add products',
     config('jetstream.auth_session'),
     'verified'
-])->group(function () {
+])->group(function (){
     //This controller is showing the /usuarios page
     Route::get('/usuarios', [UserController::class, 'show'])->name('list-users');
 
@@ -57,17 +57,17 @@ Route::middleware([
         Route::post('/produtos', [ProductController::class, 'create']);
     });
 
-    Route::group(['middleware' => ['permission:edit products']], function () {
-        //This controller is getting all data from a specific product and showing in Modal Edit
-        Route::get('/produtos/{id}', [ProductController::class, 'showEdit']);
-        //This controller is editing the product
-        Route::post('/produtos/{id}', [ProductController::class, 'update']);
-    });
-
     Route::group(['middleware' => ['permission:delete products']], function () {
         //This controller is deleting data from a product
         Route::get('/produtos/delete/{id}', [ProductController::class, 'destroy']);
     });
+});
+
+Route::group(['middleware' => ['permission:edit products']], function () {
+    //This controller is getting all data from a specific product and showing in Modal Edit
+    Route::get('/produtos/{id}', [ProductController::class, 'showEdit']);
+    //This controller is editing the product
+    Route::post('/produtos/{id}', [ProductController::class, 'update']);
 });
 
 Route::middleware([
