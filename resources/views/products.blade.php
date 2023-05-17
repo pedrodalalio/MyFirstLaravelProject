@@ -6,7 +6,7 @@
 
     <div class="d-flex mt-4 mb-2">
         <h1 class="d-block">Products</h1>
-        @if(auth()->user()->hasPermission('add products'))
+        @if(auth()->user()->hasRole('add products'))
             <button class="btn btn-outline-dark ml-5" data-toggle="modal" data-target="#addProductsModalLabel">New</button>
 
             {{--Add Modal--}}
@@ -81,7 +81,7 @@
                 <td>{{$product->description}}</td>
                 <td>{{$product->category}}</td>
                 <td class="products-icon">
-                    @if(auth()->user()->hasPermission('edit products'))
+                    @if(auth()->user()->hasRole('edit products'))
                         <button type="button" value="{{$product->id}}" class="btnEditProduct btn btn-success" data-toggle="modal" data-target="#editProductsModalLabel">
                             <i class="ti-pencil"></i>
                         </button>
@@ -140,7 +140,7 @@
                             <i class="ti-pencil"></i>
                         </button>
                     @endif
-                    @if(auth()->user()->hasPermission('delete products'))
+                        @if(auth()->user()->hasRole('delete products'))
                         <button type="button" value="{{$product->id}}" class="btnDeleteProduct btn btn-danger" data-toggle="modal" data-target="#">
                             <i class="ti-trash"></i>
                         </button>

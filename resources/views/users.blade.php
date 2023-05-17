@@ -18,7 +18,7 @@
             <th scope="col">CPF</th>
             <th scope="col">Phone</th>
             <th scope="col">UNIFAE Registration</th>
-            <th scope="col">Permission</th>
+            <th scope="col">Role</th>
             <th scope="col">Action</th>
         </tr>
         </thead>
@@ -31,7 +31,7 @@
                 <td>{{$user->cpf}}</td>
                 <td>{{$user->phone}}</td>
                 <td>{{$user->registration}}</td>
-                <td>{{$user->permissions}}</td>
+                <td></td>
                 <td class="products-icon">
                     <button type="button" value="{{$user->id}}" class="btnEdit btn btn-success" data-toggle="modal" data-target="#editUsersModalLabel">
                         <i class="ti-pencil"></i>
@@ -98,8 +98,8 @@
                         </div>
 
                         <div class="form-group">
-                            <p>Permission</p>
-                            <div class="permissionsDiv d-flex justify-content-between">
+                            <p>Regra</p>
+                            <div class="rolesDiv d-flex justify-content-between">
                             </div>
                         </div>
                     </form>
@@ -165,8 +165,8 @@
                         </div>
 
                         <div class="form-group">
-                            <p>Permission</p>
-                            <div class="permissionsDiv d-flex justify-content-between">
+                            <p>Regra</p>
+                            <div class="rolesDiv d-flex justify-content-between">
                             </div>
                         </div>
                     </form>

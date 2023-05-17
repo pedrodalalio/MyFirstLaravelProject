@@ -42,7 +42,6 @@ class User extends Authenticatable
         'phone',
         'permissions',
         'registration',
-        'role',
     ];
 
     /**
@@ -73,8 +72,4 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
-
-    public function hasPermission($name){
-        return $this->permissions()->where('name', $name)->exists();
-    }
 }

@@ -20,10 +20,9 @@ class AdminSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'phone' => '(19)99999-9999',
             'registration' => '27774-5',
-            'permissions' => 'add products, edit products, delete products',
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-        ])->givePermissionTo(['add products', 'edit products']);
+        ])->assignRole(['add products', 'edit products', 'delete products']);
 
         User::create([
             'name' => 'add',
@@ -31,10 +30,9 @@ class AdminSeeder extends Seeder
             'email' => 'add@gmail.com',
             'phone' => '1',
             'registration' => '1',
-            'permissions' => 'add products',
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-        ])->givePermissionTo(['add products']);
+        ])->assignRole(['add products']);
 
         User::create([
             'name' => 'edit',
@@ -42,10 +40,9 @@ class AdminSeeder extends Seeder
             'email' => 'edit@gmail.com',
             'phone' => '2',
             'registration' => '2',
-            'permissions' => 'edit products',
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-        ])->givePermissionTo(['edit products']);
+        ])->assignRole(['edit products']);
 
         User::create([
             'name' => 'delete',
@@ -53,9 +50,8 @@ class AdminSeeder extends Seeder
             'email' => 'delete@gmail.com',
             'phone' => '3',
             'registration' => '3',
-            'permissions' => 'delete products',
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-        ])->givePermissionTo(['delete products']);
+        ])->assignRole(['delete products']);
     }
 }

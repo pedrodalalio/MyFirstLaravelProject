@@ -1,6 +1,6 @@
     <?php
 
-    use App\Http\Controllers\PermissionController;
+    use App\Http\Controllers\RoleController;
     use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
@@ -29,7 +29,7 @@ Route::middleware([
     Route::get('/usuarios', [UserController::class, 'show'])->name('list-users');
 
     //This controller get the name of the permissions
-    Route::get('/usuarios/permission', [PermissionController::class, 'showPermissions']);
+    Route::get('/usuarios/role', [RoleController::class, 'showRoles']);
 
     //This controller is creating new user in DB
     Route::post('/usuarios', [UserController::class, 'create']);
@@ -50,24 +50,27 @@ Route::middleware([
     'verified'
 ])->group(function () {
 
-    Route::get('/produtos', [ProductController::class, 'show'])->name('list-produtos');
+    Route::group(['middleware' => ['role:add products|edit products|delete products']], function () {
+        Route::get('/produtos', [ProductController::class, 'show'])->name('list-produtos');
+    });
 
-    Route::group(['middleware' => ['permission:add products']], function () {
+    Route::group(['middleware' => ['role:add products']], function () {
+
         //This controller is creating new product in DB
         Route::post('/produtos', [ProductController::class, 'create']);
     });
 
-    Route::group(['middleware' => ['permission:delete products']], function () {
+    Route::group(['middleware' => ['role:edit products']], function () {
+        //This controller is getting all data from a specific product and showing in Modal Edit
+        Route::get('/produtos/{id}', [ProductController::class, 'showEdit']);
+        //This controller is editing the product
+        Route::post('/produtos/{id}', [ProductController::class, 'update']);
+    });
+
+    Route::group(['middleware' => ['role:delete products']], function () {
         //This controller is deleting data from a product
         Route::get('/produtos/delete/{id}', [ProductController::class, 'destroy']);
     });
-});
-
-Route::group(['middleware' => ['permission:edit products']], function () {
-    //This controller is getting all data from a specific product and showing in Modal Edit
-    Route::get('/produtos/{id}', [ProductController::class, 'showEdit']);
-    //This controller is editing the product
-    Route::post('/produtos/{id}', [ProductController::class, 'update']);
 });
 
 Route::middleware([

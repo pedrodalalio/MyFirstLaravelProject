@@ -11,19 +11,19 @@ $(document).ready(function(){
 
 // ========== USER ==========
 
-// Ajax to get permissions name
+// Ajax to get roles name
 $('.newUserBtn').click(function (){
     $.ajax({
-        url: '/usuarios/permission',
+        url: '/usuarios/role',
         type: 'GET',
         success: function (response) {
-            $('.permissionsDiv').html("");
+            $('.rolesDiv').html("");
 
             for (let i = 0; i < response.length; i++) {
-                $('.permissionsDiv').append('' +
+                $('.rolesDiv').append('' +
                     '<div class="w-4 m-2">' +
-                        '<input name="permissions[]" type="checkbox" id="permission-' + response[i].id + '" value="' + response[i].name + '">' +
-                        '<label class="ml-1" for="permission-' + response[i].id + '">' + response[i].name + '</label>' +
+                        '<input name="roles[]" type="checkbox" id="role-' + response[i].id + '" value="' + response[i].name + '">' +
+                        '<label class="ml-1" for="role-' + response[i].id + '">' + response[i].name + '</label>' +
                     '</div>'
                 );
             }
@@ -38,6 +38,8 @@ $('#btnAddUser').click(function (){
         type: 'POST',
         data: $('#addForm').serialize(),
         success: function(response) {
+
+            console.log(response);
             // Alert for empty field
             if(response.status === '412'){
                 alert(response.message);
@@ -56,7 +58,7 @@ $('#btnAddUser').click(function (){
                     '<td>' + response[0].cpf + '</td>' +
                     '<td>' + response[0].phone + '</td>' +
                     '<td>' + response[0].registration + '</td>' +
-                    '<td>' + response[0].strPermission + '</td>' +
+                    '<td>' + response[0].strRole + '</td>' +
                     '<td class="products-icon">' +
                     '<button type="button" value="'+response[0].id+'" class="btnEdit btn btn-success" data-toggle="modal"\n' + 'data-target="#editUsersModalLabel">' +
                     '<i class="ti-pencil"></i>' +
@@ -95,22 +97,22 @@ $(document).on('click', '.btnEdit', function (){
                 $('#phoneEdit').val(response[0].phone);
                 $('#registrationEdit').val(response[0].registration);
 
-                $('.permissionsDiv').html("");
+                $('.rolesDiv').html("");
 
                 for(let i = 0; i < response[2].length; i++){
                     if(response[3].includes(response[2][i])){
-                        $('.permissionsDiv').append('' +
+                        $('.rolesDiv').append('' +
                             '<div class="w-4 m-2">' +
-                            '<input name="permissions[]" type="checkbox" id="permission-' + response[3][i] + '" value="' + response[4][i] + '" checked>' +
-                            '<label class="ml-1" for="permission-' + response[3][i] + '">' + response[4][i] + '</label>' +
+                            '<input name="roles[]" type="checkbox" id="role-' + response[3][i] + '" value="' + response[4][i] + '" checked>' +
+                            '<label class="ml-1" for="role-' + response[3][i] + '">' + response[4][i] + '</label>' +
                             '</div>'
                         );
                     }
                     else{
-                        $('.permissionsDiv').append('' +
+                        $('.rolesDiv').append('' +
                             '<div class="w-4 m-2">' +
-                            '<input name="permissions[]" type="checkbox" id="permission-' + response[3][i] + '" value="' + response[4][i] + '">' +
-                            '<label class="ml-1" for="permission-' + response[3][i] + '">' + response[4][i] + '</label>' +
+                            '<input name="roles[]" type="checkbox" id="role-' + response[3][i] + '" value="' + response[4][i] + '">' +
+                            '<label class="ml-1" for="role-' + response[3][i] + '">' + response[4][i] + '</label>' +
                             '</div>'
                         );
                     }
@@ -129,12 +131,6 @@ $('#btnEditUser').click(function (){
         type: 'POST',
         data: $('#editForm').serialize(),
         success: function(response) {
-
-            // if(response.status === '401'){
-            //     alert(response.message);
-            //     return false;
-            // }
-
             if(response[1].status === '406'){
                 alert(this.message);
             }
@@ -147,7 +143,7 @@ $('#btnEditUser').click(function (){
                 '<td>' + response[0].cpf + '</td>' +
                 '<td>' + response[0].phone + '</td>' +
                 '<td>' + response[0].registration + '</td>' +
-                '<td>' + response[0].permissions + '</td>' +
+                '<td>' + response[0].roles + '</td>' +
                 '            <td class="products-icon">\n' +
                 '                <button type="button" value="'+ response[0].id + '" class="btnEdit btn btn-success" data-toggle="modal"\n' +
                 '                        data-target="#editUsersModalLabel">\n' +

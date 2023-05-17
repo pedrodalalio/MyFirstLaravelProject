@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\RoleController;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 
-class PermissionSeeder extends Seeder
+class RoleSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,7 +14,7 @@ class PermissionSeeder extends Seeder
      * @return void
      */
     public function run(){
-        $permissionController = new PermissionController();
-        $permissionController->createPermissions();
+        $roleController = new RoleController();
+        $roleController->createRoles();
     }
 }
