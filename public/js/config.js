@@ -183,6 +183,9 @@ $(document).on('click', '.btnDelete', function (){
    }
 });
 
+//Ajax for user role information
+
+
 // ========== PRODUCT ==========
 
 // Ajax creating new product

@@ -31,7 +31,9 @@
                 <td>{{$user->cpf}}</td>
                 <td>{{$user->phone}}</td>
                 <td>{{$user->registration}}</td>
-                <td></td>
+                <td>
+                    {{implode(', ',$user->roles()->pluck('name')->toArray())}}
+                </td>
                 <td class="products-icon">
                     <button type="button" value="{{$user->id}}" class="btnEdit btn btn-success" data-toggle="modal" data-target="#editUsersModalLabel">
                         <i class="ti-pencil"></i>

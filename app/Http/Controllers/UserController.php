@@ -10,7 +10,6 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller{
     public function show(){
-
         $users = User::all();
         return view('users', ['users' => $users]);
     }
