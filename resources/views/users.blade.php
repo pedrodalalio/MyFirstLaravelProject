@@ -9,7 +9,7 @@
             <button class="newUserBtn btn btn-outline-dark ml-5" data-toggle="modal" data-target="#addUsersModalLabel">New</button>
     </div>
 
-    <table class="table table-striped table-bordered table-secondary">
+    <table id="userTable" class="table table-striped table-bordered table-secondary">
         <thead>
         <tr>
             <th scope="col">#</th>

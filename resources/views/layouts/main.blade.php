@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="{{asset('assets/css/default-css.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/styles.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/responsive.css')}}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <!-- modernizr css -->
     <script src="{{asset('assets/js/vendor/modernizr-2.8.3.min.js')}}"></script>
 </head>
@@ -27,7 +28,6 @@
 <body>
 
     <div class="page-container">
-
         <div class="sidebar-menu">
             <div class="sidebar-header">
                 <div class="logo">
@@ -44,11 +44,22 @@
                                 </li>
 
                                 <li>
+                                    <a href="{{route('list-users')}}"><i class="ti-list"></i><span>Users</span></a>
+                                </li>
+
+                                <li>
                                     <a href="{{route('list-produtos')}}"><i class="fa fa-table"></i><span>Products</span></a>
                                 </li>
 
                                 <li>
-                                    <a href="{{route('list-users')}}"><i class="ti-list"></i><span>Users</span></a>
+                                    <a href="{{route('stock')}}"><i class="ti-dropbox-alt"></i><span>Stock</span></a>
+                                </li>
+
+                                <li>
+                                    <a href="javascript:void(0)" aria-expanded="true"><i class="ti-exchange-vertical"></i><span>Movimentation</span></a>
+                                    <ul class="collapse">
+                                        <li><a href="{{route('manage')}}">Manage</a></li>
+                                    </ul>
                                 </li>
                             @endauth
                             @guest
@@ -58,17 +69,17 @@
                             @endguest
 
                             @auth
-                            <li>
-                                <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-                                    <div class="nav-item">
-                                        <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();this.closest('form').submit(); " role="button">
-                                            <i class="fa fa-sign-out"></i>
-                                           <span>Logout</span>
-                                        </a>
-                                    </div>
-                                </form>
-                            </li>
+                                <li>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <div class="nav-item">
+                                            <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();this.closest('form').submit(); " role="button">
+                                                <i class="fa fa-sign-out"></i>
+                                               <span>Logout</span>
+                                            </a>
+                                        </div>
+                                    </form>
+                                </li>
                             @endauth
                         </ul>
                     </nav>
@@ -85,12 +96,6 @@
                             <span></span>
                             <span></span>
                             <span></span>
-                        </div>
-                        <div class="search-box pull-left">
-                            <form action="#">
-                                <input type="text" name="search" placeholder="Search..." required>
-                                <i class="ti-search"></i>
-                            </form>
                         </div>
                     </div>
                     <!-- profile info & task notification -->
@@ -278,7 +283,8 @@
 <script src="assets/js/scripts.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
-    <script src="{{asset('js/config.js')}}"></script>
+<script src="{{asset('js/config.js')}}"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 </body>
 
 </html>

@@ -69,6 +69,8 @@
             <th scope="col">Name</th>
             <th scope="col">Description</th>
             <th scope="col">Category</th>
+            <th scope="col">Measurement</th>
+            <th scope="col">Unit Quantity</th>
             <th scope="col">Action</th>
         </tr>
         </thead>
@@ -80,6 +82,8 @@
                 <td>{{$product->name}}</td>
                 <td>{{$product->description}}</td>
                 <td>{{$product->category}}</td>
+                <td>{{$product->measurement_units}}</td>
+                <td>{{$product->unit_quantity}}</td>
                 <td class="products-icon">
                     @if(auth()->user()->hasRole('edit products'))
                         <button type="button" value="{{$product->id}}" class="btnEditProduct btn btn-success" data-toggle="modal" data-target="#editProductsModalLabel">
@@ -136,7 +140,7 @@
                         </div>
 
                         @else
-                        <button type="button" class="btn btn-success" disabled>
+                        <button type="button" class="btn btn-secondary" disabled>
                             <i class="ti-pencil"></i>
                         </button>
                     @endif
@@ -146,7 +150,7 @@
                         </button>
 
                         @else
-                            <button type="button" class="btn btn-danger" disabled>
+                            <button type="button" class="btn btn-secondary" disabled>
                                 <i class="ti-trash"></i>
                             </button>
                     @endif

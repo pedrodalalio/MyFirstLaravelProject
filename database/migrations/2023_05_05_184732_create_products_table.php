@@ -19,6 +19,8 @@ class CreateProductsTable extends Migration
             $table->text('description');
             $table->string('product_code');
             $table->string('category');
+            $table->string('measurement_units');
+            $table->integer('unit_quantity');
             $table->timestamps();
         });
     }

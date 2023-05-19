@@ -318,3 +318,9 @@ $(document).on('click', '.btnDeleteProduct ', function () {
         });
     }
 });
+
+// ========== DATA TABLE ===========
+$(document).ready( function () {
+    $('#userTable').DataTable();
+    $('#manageTable').DataTable();
+} );

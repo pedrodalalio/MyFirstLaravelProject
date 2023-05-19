@@ -2850,3 +2850,10 @@ table.dataTable thead td {
 .modal-footer{
     padding-top: 0;
 }
+.search-box{
+    margin-left: 29%;
+}
+
+#search-box{
+    border: 1px solid #bebebe;
+}
