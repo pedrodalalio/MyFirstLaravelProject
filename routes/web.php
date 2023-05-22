@@ -1,5 +1,6 @@
     <?php
 
+    use App\Http\Controllers\BatchController;
     use App\Http\Controllers\MovimentController;
     use App\Http\Controllers\RoleController;
     use App\Http\Controllers\StockController;
@@ -60,6 +61,7 @@ Route::middleware([
 
         //This controller is creating new product in DB
         Route::post('/produtos', [ProductController::class, 'create']);
+        Route::get('/produtos/batches/{id}', [BatchController::class, 'batches']);
     });
 
     Route::group(['middleware' => ['role:edit products']], function () {

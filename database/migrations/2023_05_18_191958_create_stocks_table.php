@@ -20,7 +20,6 @@ class CreateStocksTable extends Migration
             $table->integer('min_stock');
             $table->integer('max_stock');
             $table->timestamps();
-
             $table->foreign('id_product')->references('id')->on('products');
         });
     }

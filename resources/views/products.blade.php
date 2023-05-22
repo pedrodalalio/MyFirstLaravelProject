@@ -10,7 +10,7 @@
             <button class="btn btn-outline-dark ml-5" data-toggle="modal" data-target="#addProductsModalLabel">New</button>
 
             {{--Add Modal--}}
-            <div class="modal fade" id="addProductsModalLabel" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+            <div class="modal fade" id="addProductsModalLabel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -27,26 +27,65 @@
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label for="nameAddP">Name</label>
-                                        <input type="text" name="name" class="form-control" id="nameAddP" placeholder="Name">
-                                    </div>
-                                    <div class="form-group col-md-6">
                                         <label for="product_codeAddP">Product code</label>
                                         <input type="text" name="product_code" class="form-control" id="product_codeAddP" placeholder="Product code">
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label for="nameAddP">Name</label>
+                                        <input type="text" name="name" class="form-control" id="nameAddP" placeholder="Name">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="descriptionAddP">Description</label>
-                                    <textarea class="d-block" name="description" id="descriptionAddP" placeholder="Describe your product" cols="59"></textarea>
+                                    <textarea class="d-block form-control" name="description" id="descriptionAddP" placeholder="Describe your product" cols="59"></textarea>
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="categoryAddP">Category</label>
-                                    <select class="form-control" name="category" id="categoryAddP">
-                                        <option value="food">Food</option>
-                                        <option value="drink">Drink</option>
-                                        <option value="fit">Fit</option>
-                                    </select>
+{{--                                <div class="form-group">--}}
+{{--                                    <label for="categoryAddP">Category</label>--}}
+{{--                                    <select class="form-control" name="category" id="categoryAddP">--}}
+{{--                                        <option value="0"></option>--}}
+{{--                                        <option value="food">Food</option>--}}
+{{--                                        <option value="drink">Drink</option>--}}
+{{--                                        <option value="fit">Fit</option>--}}
+{{--                                    </select>--}}
+{{--                                </div>--}}
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="measurement_unitsAddP">Measurement Unit</label>
+                                        <input class="form-control" type="text" name="measurement_units" id="measurement_unitsAddP">
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label for="batchQuantity">Unit Quantity</label>
+                                        <input class="form-control" type="number" name="qt_product" id="batchQuantity">
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="batchMoviment">Batch</label>
+                                        <input class="form-control" type="text" name="id_batch" id="batchMoviment">
+                                        <div id="divText">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label for="">Validity Date</label>
+                                        <input class="form-control" type="date" name="dt_validity" id="batchValidity">
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="batchActive">Active</label>
+                                        <select id="batchActive" class="form-control" name="active">
+                                            <option></option>
+                                            <option value="1">Yes</option>
+                                            <option value="0">No</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </form>
                         </div>

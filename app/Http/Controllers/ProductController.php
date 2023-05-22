@@ -20,6 +20,7 @@ class ProductController extends Controller{
     public function create(Request $request){
         try {
             $data = $request->all();
+            dd($data);
             foreach($data as $d){
                 if($d == null){
                     $res = [

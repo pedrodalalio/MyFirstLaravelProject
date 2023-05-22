@@ -18,7 +18,6 @@ class CreateBatchesTable extends Migration
             $table->string('id_batch');
             $table->unsignedBigInteger('id_product');
             $table->date('dt_validity');
-            $table->integer('qt_product');
             $table->enum('active', ['0', '1']);
             $table->timestamps();
 

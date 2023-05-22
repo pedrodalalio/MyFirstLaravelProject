@@ -324,3 +324,33 @@ $(document).ready( function () {
     $('#userTable').DataTable();
     $('#manageTable').DataTable();
 } );
+
+// ========== Movements ===========
+$(document).on('blur', '#batchMoviment', function (){
+    let id = $('#batchMoviment').val();
+    $('#divText').html('');
+
+    $.ajax({
+        url: "/produtos/batches/" + id,
+        type: "GET",
+        data: id,
+        success: function (response) {
+            if(response.status === "404"){
+                $('#divText').html('<p>'+ response.message + '</p>');
+
+                $('#batchValidity').val('');
+                $('#batchValidity').css("pointer-events", "auto");
+
+                $('#batchActive').val('');
+                $('#batchActive').css("pointer-events", "auto");
+            }
+            else {
+                $('#batchValidity').val(response.dt_validity);
+                $('#batchValidity').css("pointer-events", "none");
+
+                $('#batchActive').val(response.active);
+                $('#batchActive').css("pointer-events", "none");
+            }
+        }
+    });
+});

@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class MovimentController extends Controller
 {
     public function index(){
-        return view('manage');
+
+        $products = Product::all();
+        return view('manage', ['products' => $products]);
     }
 }
