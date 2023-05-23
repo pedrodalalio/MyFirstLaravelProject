@@ -10,7 +10,7 @@ class BatchController extends Controller
 {
     public function batches(int $id){
         try {
-            $batches = Batch::query()->findOrFail($id);
+            $batches = Batch::query()->firstWhere('id_batch', $id);
         }
         catch(ModelNotFoundException $e){
             $res = [

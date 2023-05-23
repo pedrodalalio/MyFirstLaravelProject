@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Batch;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -20,7 +21,6 @@ class ProductController extends Controller{
     public function create(Request $request){
         try {
             $data = $request->all();
-            dd($data);
             foreach($data as $d){
                 if($d == null){
                     $res = [
@@ -33,7 +33,14 @@ class ProductController extends Controller{
 
             //Alterar para password
             $product = [];
-            $product[0] = Product::create($data);
+            $product[0] = Product::create([
+                'name' => $data['name'],
+                'description' => $data['description'],
+                'product_code' => $data['product_code'],
+                'category' => 'categoria',
+                'measurement_units' => $data['measurement_units'],
+                'unit_quantity' => $data['unit_quantity'],
+            ]);
 
             $product[1] = [
                 'status' => '201',
@@ -100,8 +107,8 @@ class ProductController extends Controller{
             $res = [];
             $res[0] = $id;
 
+            Batch::query()->firstWhere('id_product', $id)->delete();
             Product::query()->findOrFail($id)->delete();
-
 
             $res[1] = [
                 'status' => '200',
@@ -111,7 +118,7 @@ class ProductController extends Controller{
             return response()->json($res);
         }
         catch(\Exception $e){
-
+            dd($e->getMessage());
             $res = [
                 'status' => '404',
                 'message' => 'Product Not Found'

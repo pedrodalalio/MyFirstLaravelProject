@@ -90,4 +90,5 @@ Route::middleware([
     Route::get('/stock', [StockController::class, 'index'])->name('stock');
 
     Route::get('/manage', [MovimentController::class, 'index'])->name('manage');
+    Route::get('/manage/products/{id}', [ProductController::class, 'products']);
 });

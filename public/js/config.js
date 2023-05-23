@@ -212,7 +212,8 @@ $('#btnAddProduct').click(function (){
                     '<td>'+ response[0].product_code +'</td>' +
                     '<td>'+ response[0].name +'</td>' +
                     '<td>'+ response[0].description +'</td>' +
-                    '<td>'+ response[0].category +'</td>' +
+                    '<td>'+ response[0].measurement_units +'</td>' +
+                    '<td>'+ response[0].unit_quantity +'</td>' +
                     '<td class="products-icon">' +
                         '<button type="button" value="'+ response[0].id +'" class="btnEditProduct btn btn-success" data-toggle="modal" data-target="#editProductsModalLabel">' +
                             '<i class="ti-pencil"></i>' +
@@ -299,7 +300,7 @@ $(document).on('click', '.btnDeleteProduct ', function () {
 
     let id = $(this).val();
     let confirmation;
-    confirmation = confirm("You want to delete the product id: " + id);
+    confirmation = confirm("You want to delete the product id: " + id + " and dependencies");
 
     if(confirmation){
         $.ajax({
@@ -350,6 +351,31 @@ $(document).on('blur', '#batchMoviment', function (){
 
                 $('#batchActive').val(response.active);
                 $('#batchActive').css("pointer-events", "none");
+            }
+        }
+    });
+});
+
+$(document).on('blur', '#movementProduct', function(){
+   let id = $(this).val();
+    $('#alertText').html('');
+
+    $.ajax({
+        url: "/manage/products/" + id,
+        type: "GET",
+        data: id,
+        success: function (response) {
+            console.log(response);
+            if(response.status === "404"){
+                $('#alertText').html('<p>'+ response.message + '</p>');
+
+                $('#movementProduct').val('');
+                $('#movementProduct').css("pointer-events", "auto");
+            }
+            else {
+                $('#movementProduct').val(response.name);
+                $('#movementProduct').css("pointer-events", "none");
+
             }
         }
     });

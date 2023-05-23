@@ -59,32 +59,7 @@
 
                                     <div class="form-group col-md-6">
                                         <label for="batchQuantity">Unit Quantity</label>
-                                        <input class="form-control" type="number" name="qt_product" id="batchQuantity">
-                                    </div>
-                                </div>
-
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="batchMoviment">Batch</label>
-                                        <input class="form-control" type="text" name="id_batch" id="batchMoviment">
-                                        <div id="divText">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group col-md-6">
-                                        <label for="">Validity Date</label>
-                                        <input class="form-control" type="date" name="dt_validity" id="batchValidity">
-                                    </div>
-                                </div>
-
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="batchActive">Active</label>
-                                        <select id="batchActive" class="form-control" name="active">
-                                            <option></option>
-                                            <option value="1">Yes</option>
-                                            <option value="0">No</option>
-                                        </select>
+                                        <input class="form-control" type="number" name="unit_quantity" id="batchQuantity">
                                     </div>
                                 </div>
                             </form>
@@ -107,7 +82,7 @@
             <th scope="col">Product Code</th>
             <th scope="col">Name</th>
             <th scope="col">Description</th>
-            <th scope="col">Category</th>
+{{--            <th scope="col">Category</th>--}}
             <th scope="col">Measurement</th>
             <th scope="col">Unit Quantity</th>
             <th scope="col">Action</th>
@@ -120,7 +95,7 @@
                 <td>{{$product->product_code}}</td>
                 <td>{{$product->name}}</td>
                 <td>{{$product->description}}</td>
-                <td>{{$product->category}}</td>
+{{--                <td>{{$product->category}}</td>--}}
                 <td>{{$product->measurement_units}}</td>
                 <td>{{$product->unit_quantity}}</td>
                 <td class="products-icon">

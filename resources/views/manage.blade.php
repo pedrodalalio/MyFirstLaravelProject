@@ -26,15 +26,25 @@
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <select class="selectpicker" data-live-search="true">
+                                    <label for="movementType">Type</label>
+                                    <select name="type" id="movementType" class="selectpicker">
                                         <option></option>
-                                        @foreach($products as $product)
-                                            <option>{{$product->name}}</option>
-                                        @endforeach
+                                        <option value="entry">Entry</option>
+                                        <option value="output">Output</option>
                                     </select>
                                 </div>
-                                <div class="form-group col-md-6">
 
+                                <div class="form-group col-md-6">
+                                    <label for="movementProduct">Product code</label>
+                                    <input class="form-control" type="text" name="product_code" id="movementProduct" onkeydown="$(this).mask('000.000.0000');">
+                                </div>
+                                <div id="alertText"></div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="movementProduct">Product Name</label>
+                                    <input class="form-control" type="text" name="name" id="movementProduct">
                                 </div>
                             </div>
                         </form>
