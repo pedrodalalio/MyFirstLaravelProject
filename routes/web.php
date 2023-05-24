@@ -61,7 +61,6 @@ Route::middleware([
 
         //This controller is creating new product in DB
         Route::post('/produtos', [ProductController::class, 'create']);
-        Route::get('/produtos/batches/{id}', [BatchController::class, 'batches']);
     });
 
     Route::group(['middleware' => ['role:edit products']], function () {
@@ -90,5 +89,6 @@ Route::middleware([
     Route::get('/stock', [StockController::class, 'index'])->name('stock');
 
     Route::get('/manage', [MovimentController::class, 'index'])->name('manage');
-    Route::get('/manage/products/{id}', [ProductController::class, 'products']);
+    Route::get('/manage/products/{id}', [MovimentController::class, 'infoProducts']);
+    Route::get('/manage/batches/{id}', [BatchController::class, 'batches']);
 });

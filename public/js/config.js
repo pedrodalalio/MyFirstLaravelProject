@@ -331,52 +331,84 @@ $(document).on('blur', '#batchMoviment', function (){
     let id = $('#batchMoviment').val();
     $('#divText').html('');
 
-    $.ajax({
-        url: "/produtos/batches/" + id,
-        type: "GET",
-        data: id,
-        success: function (response) {
-            if(response.status === "404"){
-                $('#divText').html('<p>'+ response.message + '</p>');
+    if(id){
+        $.ajax({
+            url: "/manage/batches/" + id,
+            type: "GET",
+            data: id,
+            success: function (response) {
+                console.log(response);
+                if(response.status === "404"){
+                    Swal.fire('This batch does not exist yet, a new one will be created');
+                    //$('#divText').html('<p>'+ response.message + '</p>');
 
-                $('#batchValidity').val('');
-                $('#batchValidity').css("pointer-events", "auto");
+                    $('#batchValidity').val('');
+                    $('#batchValidity').css("pointer-events", "auto");
 
-                $('#batchActive').val('');
-                $('#batchActive').css("pointer-events", "auto");
+                    $('#batchActive').val('');
+                    $('#batchActive').css("pointer-events", "auto");
+                }
+                else {
+                    $('#batchValidity').val(response.dt_validity);
+                    $('#batchValidity').css("pointer-events", "none");
+
+                    $('#batchActive').val(response.active);
+                    $('#batchActive').css("pointer-events", "none");
+                }
             }
-            else {
-                $('#batchValidity').val(response.dt_validity);
-                $('#batchValidity').css("pointer-events", "none");
-
-                $('#batchActive').val(response.active);
-                $('#batchActive').css("pointer-events", "none");
-            }
-        }
-    });
+        });
+    }
 });
 
-$(document).on('blur', '#movementProduct', function(){
+$(document).on('blur', '#movementProductCode', function(){
    let id = $(this).val();
-    $('#alertText').html('');
 
-    $.ajax({
-        url: "/manage/products/" + id,
-        type: "GET",
-        data: id,
-        success: function (response) {
-            console.log(response);
-            if(response.status === "404"){
-                $('#alertText').html('<p>'+ response.message + '</p>');
+    if(id){
+        $.ajax({
+            url: "/manage/products/" + id,
+            type: "GET",
+            data: id,
+            success: function (response) {
+                if(response.status === "404"){
+                    $('#alertText').html('<p>'+ response.message + '</p>');
 
-                $('#movementProduct').val('');
-                $('#movementProduct').css("pointer-events", "auto");
+                    $('#movementProductName').val('');
+                    $('#movementProductName').css("pointer-events", "auto");
+                }
+                else {
+                    $('#alertText').html('');
+                    $('#movementProductName').val(response.name);
+                    $('#movementProductName').css("pointer-events", "none");
+                }
             }
-            else {
-                $('#movementProduct').val(response.name);
-                $('#movementProduct').css("pointer-events", "none");
-
-            }
-        }
-    });
+        });
+    }
 });
+
+$('.selectpicker').change(function () {
+    let selectedItem = $('.selectpicker').val();
+    $('#originMovement').html('');
+    if(selectedItem === 'entry'){
+        $('#originMovement').css("pointer-events", "auto");
+        $('#originMovement').removeAttr("disabled");
+        $('#originMovement').append('' +
+            '<option value="unifae">Unifae</option>' +
+            '<option value="prefeitura">Prefeitura</option>'
+        );
+    }
+    else if(selectedItem === 'output'){
+        $('#originMovement').append('' +
+            '<option value="none">None</option>'
+        );
+        $('#originMovement').css("pointer-events", "none");
+        $('#originMovement').attr("disabled", "disabled");
+    }
+    else{
+        $('#originMovement').css("pointer-events", "none");
+        $('#originMovement').attr("disabled", "disabled");
+    }
+});
+
+$(document).on('click', '#btnAddMovement', function (){
+
+})

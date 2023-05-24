@@ -13,7 +13,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">New Product</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">New Movement</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -35,23 +35,65 @@
                                 </div>
 
                                 <div class="form-group col-md-6">
-                                    <label for="movementProduct">Product code</label>
-                                    <input class="form-control" type="text" name="product_code" id="movementProduct" onkeydown="$(this).mask('000.000.0000');">
+                                    <label for="movementProductCode">Product code</label>
+                                    <input class="form-control" type="text" name="product_code" id="movementProductCode" onkeydown="$(this).mask('000.000.0000');">
+                                    <div id="alertText">
+                                    </div>
                                 </div>
-                                <div id="alertText"></div>
                             </div>
 
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="movementProduct">Product Name</label>
-                                    <input class="form-control" type="text" name="name" id="movementProduct">
+                                    <label for="movementProductName">Product Name</label>
+                                    <input class="form-control" type="text" name="name" id="movementProductName">
                                 </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="batchMoviment">Batch</label>
+                                    <input class="form-control" type="text" name="id_batch" id="batchMoviment">
+                                    <div id="divText">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="batchValidity">Validity Date</label>
+                                    <input class="form-control" type="date" name="dt_validity" id="batchValidity">
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="batchActive">Active</label>
+                                    <select id="batchActive" class="form-control" name="active">
+                                        <option></option>
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="originMovement">Origin</label>
+                                    <select id="originMovement" class="form-control" name="origin">
+                                    </select>
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="qtMovement">Product Quantity</label>
+                                    <input class="form-control" type="number" name="qt_product" id="qtMovement">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="dateMovement">Movimentation Date</label>
+                                <input class="form-control" type="date" name="dt_movimentation" id="dateMovement">
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" id="btnAddProduct" class="btn btn-info">Create product</button>
+                        <button type="button" id="btnAddMovement" class="btn btn-info">Create movement</button>
                     </div>
                 </div>
             </div>

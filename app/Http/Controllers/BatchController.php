@@ -8,9 +8,17 @@ use Illuminate\Http\Request;
 
 class BatchController extends Controller
 {
-    public function batches(int $id){
+    public function batches($id){
         try {
             $batches = Batch::query()->firstWhere('id_batch', $id);
+            if($batches == null){
+                $res = [
+                    'status' => '404',
+                    'message' => 'This batch does not exist yet, a new one will be created',
+                ];
+                return response()->json($res);
+            }
+            return response()->json($batches);
         }
         catch(ModelNotFoundException $e){
             $res = [
@@ -19,6 +27,5 @@ class BatchController extends Controller
             ];
             return response()->json($res);
         }
-        return response()->json($batches);
     }
 }

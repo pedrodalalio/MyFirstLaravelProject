@@ -13,16 +13,22 @@ class MovimentController extends Controller
         return view('manage');
     }
 
-    public function products(int $id){
+    public function infoProducts($id){
         try {
             $products = Product::query()->firstWhere('product_code', $id);
+            if($products == null){
+                $res = [
+                    'status' => '404',
+                    'message' => 'This product code does not exist',
+                ];
+                return response()->json($res);
+            }
             return response()->json($products);
         }
-        catch(\Exception $e){
-            dd($e->getMessage());
+        catch(ModelNotFoundException $e){
             $res = [
-                'status' => '404',
-                'message' => 'This product does not exist',
+                'status' => '401',
+                'message' => 'Error',
             ];
             return response()->json($res);
         }
