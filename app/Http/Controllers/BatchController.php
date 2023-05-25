@@ -10,7 +10,7 @@ class BatchController extends Controller
 {
     public function batches($id){
         try {
-            $batches = Batch::query()->firstWhere('id_batch', $id);
+            $batches = Batch::query()->firstWhere('num_batch', $id);
             if($batches == null){
                 $res = [
                     'status' => '404',

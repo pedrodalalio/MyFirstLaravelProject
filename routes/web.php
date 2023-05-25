@@ -91,4 +91,6 @@ Route::middleware([
     Route::get('/manage', [MovimentController::class, 'index'])->name('manage');
     Route::get('/manage/products/{id}', [MovimentController::class, 'infoProducts']);
     Route::get('/manage/batches/{id}', [BatchController::class, 'batches']);
+    Route::post('/manage', [MovimentController::class, 'create']);
+    Route::get('/manage/{id}', [MovimentController::class, 'showEdit']);
 });

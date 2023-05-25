@@ -50,7 +50,7 @@
 
                                 <div class="form-group col-md-6">
                                     <label for="batchMoviment">Batch</label>
-                                    <input class="form-control" type="text" name="id_batch" id="batchMoviment">
+                                    <input class="form-control" type="text" name="num_batch" id="batchMoviment">
                                     <div id="divText">
                                     </div>
                                 </div>
@@ -103,39 +103,33 @@
     <table id="manageTable" class="table table-striped table-bordered table-secondary">
         <thead>
         <tr>
+            <th scope="col">#</th>
             <th scope="col">Product Code</th>
-            <th scope="col">Batch ID</th>
+            <th scope="col">Batch</th>
             <th scope="col">Type</th>
             <th scope="col">Origin</th>
             <th scope="col">Quantity</th>
             <th scope="col">Date</th>
-{{--            <th scope="col">Action</th>--}}
+            <th scope="col">Action</th>
         </tr>
         </thead>
         <tbody id="tbodyStock">
-        {{--@foreach( as )--}}
-        <tr>
-            <th scope="row"></th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-{{--            <td class="d-flex justify-content-around">--}}
-{{--                <button type="button" value="" class=" btn btn-success" data-toggle="modal" data-target="#">--}}
-{{--                    <i class="ti-pencil"></i>--}}
-{{--                </button>--}}
-
-{{--                <button type="button" value="" class=" btn btn-danger">--}}
-{{--                    <i class="ti-trash"></i>--}}
-{{--                </button>--}}
-
-{{--                <button type="button" value="" class=" btn btn-info" data-toggle="modal" data-target="#">--}}
-{{--                    <i class="ti-archive"></i>--}}
-{{--                </button>--}}
-{{--            </td>--}}
+        @foreach($movements as $movement)
+        <tr id="stock_id-{{$movement['id']}}">
+            <th scope="row">{{$movement['id']}}</th>
+            <td>{{$movement['product_code']}}</td>
+            <td>{{$movement['num_batch']}}</td>
+            <td>{{$movement['type']}}</td>
+            <td>{{$movement['origin']}}</td>
+            <td>{{$movement['qt_product']}}</td>
+            <td>{{date('d/m/Y', strtotime($movement['dt_movimentation']))}}</td>
+            <td class="d-flex justify-content-around">
+                <button type="button" value="{{$movement['id']}}" class="btnEditMovement btn btn-success" data-toggle="modal" data-target="#">
+                    <i class="ti-pencil"></i>
+                </button>
+            </td>
         </tr>
-        {{--@endforeach--}}
+        @endforeach
         </tbody>
     </table>
 @endsection

@@ -390,7 +390,7 @@ $('.selectpicker').change(function () {
     $('#originMovement').html('');
     if(selectedItem === 'entry'){
         $('#originMovement').css("pointer-events", "auto");
-        $('#originMovement').removeAttr("disabled");
+        $('#originMovement').css("background-color", "#fff");
         $('#originMovement').append('' +
             '<option value="unifae">Unifae</option>' +
             '<option value="prefeitura">Prefeitura</option>'
@@ -401,14 +401,53 @@ $('.selectpicker').change(function () {
             '<option value="none">None</option>'
         );
         $('#originMovement').css("pointer-events", "none");
-        $('#originMovement').attr("disabled", "disabled");
+        $('#originMovement').css("background-color", "#E9ECEF");
     }
     else{
         $('#originMovement').css("pointer-events", "none");
-        $('#originMovement').attr("disabled", "disabled");
+        $('#originMovement').css("background-color", "#E9ECEF");
     }
 });
 
 $(document).on('click', '#btnAddMovement', function (){
+    $.ajax({
+        url: '/manage',
+        type: 'POST',
+        data: $('#addFormProduct').serialize(),
+        success: function(response) {
+            console.log(response);
 
+            if(response.status === '400'){
+                Swal.fire(response.message);
+            }
+            $('#tbodyStock').append('' +
+                '<tr id="stock_id-'+ response.id + '">' +
+                    '<th scope="row">'+ response.id +'</th>' +
+                    '<td>'+ response.product_code +'</td>' +
+                    '<td>'+ response[0].num_batch +'</td>' +
+                    '<td>'+ response[1].type +'</td>' +
+                    '<td>'+ response[1].origin +'</td>' +
+                    '<td>'+ response[1].qt_product +'</td>' +
+                    '<td>'+ response[1].dt_movimentation +'</td>' +
+                    '<td>' +
+                        '<button type="button" value="'+ response.id +'" class="btnEditMovement btn btn-success" data-toggle="modal" data-target="#editMovement">' +
+                        '<i class="ti-pencil"></i>' +
+                        '</button>' +
+                    '</td>' +
+                '</tr>');
+            $('#addMovementModal').modal('hide');
+        }
+    });
+})
+
+$(document).on('click', '.btnEditMovement', function (){
+    let id = $(this).val()
+    $.ajax({
+        url: '/manage/' + id,
+        type: 'GET',
+        data: id,
+        success: function(response) {
+            console.log(response);
+        }
+    })
 })

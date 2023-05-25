@@ -28,8 +28,8 @@ class CreateMovimentationsTable extends Migration
             $table->date('dt_movimentation');
             $table->timestamps();
 
-            $table->foreign('id_product')->references('id')->on('products');
-            $table->foreign('id_batch')->references('id')->on('batches');;
+            $table->foreign('id_product')->references('id')->on('products')->onDelete('cascade');
+            $table->foreign('id_batch')->references('id')->on('batches')->onDelete('cascade');
         });
     }
 

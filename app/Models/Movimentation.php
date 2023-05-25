@@ -10,6 +10,8 @@ class Movimentation extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id_product',
+        'id_batch',
         'type',
         'origin',
         'qt_product',
