@@ -90,6 +90,7 @@ class MovimentController extends Controller{
         'dt_movimentation' => $data['dt_movimentation'],
       ]);
 
+      $res[1]->dt_movimentation = date('d/m/Y', strtotime($res[1]->dt_movimentation));
       $res['product_code'] = $data['product_code'];
       $res['id'] = $res[1]->id;
 
@@ -128,6 +129,7 @@ class MovimentController extends Controller{
   public function update(Request $request, int $id){
     try {
       $data = $request->all();
+      $res['movement'] = $data;
       $product = Product::query()->where('product_code', '=', $data['product_code'])->first();
 
       $batch = Batch::query()->where('num_batch', '=', $data['num_batch'])->first();
@@ -140,10 +142,10 @@ class MovimentController extends Controller{
           'active' => $data['active']
         ]);
 
-        $res[0] = $batch;
+        $res['batch'] = $batch;
       }
 
-      $res[0] = $batch;
+      $res['batch'] = $batch;
 
       Movimentation::query()->findOrFail($id)->update([
         'id_product' => $product->id,
@@ -154,6 +156,7 @@ class MovimentController extends Controller{
         'dt_movimentation' => $data['dt_movimentation'],
       ]);
 
+      $res['movement']['dt_movimentation'] = date('d/m/Y', strtotime($res['movement']['dt_movimentation']));
       $res['product_code'] = $data['product_code'];
       $res['type'] = $data['type'];
       $res['origin'] = $data['origin'];

@@ -5,9 +5,9 @@
 @section('content')
   <div class="d-flex mt-4 mb-2">
     <h1 class="d-block">Movements</h1>
-    <button class="btn btn-outline-dark ml-5" data-toggle="modal" data-target="#addMovementModal">New Movement</button>
+    <button class="btnAddMovementModal btn btn-outline-dark ml-5">New Movement</button>
     {{--Add Modal--}}
-    <div class="modal fade" id="addMovementModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal fade " id="addMovementModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -24,8 +24,8 @@
               </div>
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="movementType">Type</label>
-                  <select name="type" id="movementType" class="selectpicker">
+                  <label for="movementTypeAdd">Type</label>
+                  <select name="type" id="movementTypeAdd" class="selectpicker selectPickerAdd">
                     <option></option>
                     <option value="entry">Entry</option>
                     <option value="output">Output</option>
@@ -103,28 +103,28 @@
     </tr>
     </thead>
     <tbody id="tbodyStock">
-    @foreach($movements as $movement)
-      <tr id="stock_id-{{$movement['id']}}">
-        <th scope="row">{{$movement['id']}}</th>
-        <td>{{$movement['product_code']}}</td>
-        <td>{{$movement['num_batch']}}</td>
-        <td>{{$movement['type']}}</td>
-        <td>{{$movement['origin']}}</td>
-        <td>{{$movement['qt_product']}}</td>
-        <td>{{date('d/m/Y', strtotime($movement['dt_movimentation']))}}</td>
-        <td class="d-flex justify-content-around">
-          <button type="button" value="{{$movement['id']}}" class="btnEditMovement btn btn-success" data-toggle="modal" data-target="#editMovementModal">
-            <i class="ti-pencil"></i>
-          </button>
-        </td>
-      </tr>
-    @endforeach
+      @foreach($movements as $movement)
+        <tr id="stock_id-{{$movement['id']}}">
+          <th scope="row">{{$movement['id']}}</th>
+          <td>{{$movement['product_code']}}</td>
+          <td>{{$movement['num_batch']}}</td>
+          <td>{{$movement['type']}}</td>
+          <td>{{$movement['origin']}}</td>
+          <td>{{$movement['qt_product']}}</td>
+          <td>{{date('d/m/Y', strtotime($movement['dt_movimentation']))}}</td>
+          <td class="d-flex justify-content-around">
+            <button type="button" value="{{$movement['id']}}" class="btnEditMovement btn btn-success">
+              <i class="ti-pencil"></i>
+            </button>
+          </td>
+        </tr>
+      @endforeach
     </tbody>
   </table>
 @endsection
 
 {{--Edit Modal--}}
-<div class="modal fade" id="editMovementModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+<div class="modal fade editModalTest" id="editMovementModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -137,17 +137,15 @@
         <form id="editFormMovement">
           @csrf
           <div>
-            <input type="hidden" id="idMovementEdit" value="">
+            <input name="id_movement" type="hidden" id="idMovementEdit" value="">
           </div>
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="movementTypeEdit">Type</label>
-              <div class="example-select">
-                <select name="type" id="movementTypeEdit" class="selectpicker selectTypeEdit">
-                  <option value="entry">Entry</option>
-                  <option value="output">Output</option>
-                </select>
-              </div>
+              <select name="type" id="movementTypeEdit" class="selectpicker selectTypeEdit">
+                <option value="entry">Entry</option>
+                <option value="output">Output</option>
+              </select>
             </div>
             <div class="form-group col-md-6">
               <label for="movementProductCodeEdit">Product code</label>
@@ -164,7 +162,7 @@
             <div class="form-group col-md-6">
               <label for="batchMovimentEdit">Batch</label>
               <input class="form-control" type="text" name="num_batch" id="batchMovimentEdit">
-              <div id="divText">
+              <div id="divTextEdit">
               </div>
             </div>
           </div>
@@ -201,7 +199,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" id="btnEditMovement" class="btn btn-info">Save changes</button>
+        <button type="button" id="btnFormEditMovement" class="btn btn-info">Save changes</button>
       </div>
     </div>
   </div>

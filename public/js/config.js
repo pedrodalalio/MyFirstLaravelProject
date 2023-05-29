@@ -1,3 +1,4 @@
+// Show password in inputs
 $(document).ready(function(){
   $('.showPass').on('click', function(){
     let passInput=$(".passI");
@@ -154,6 +155,7 @@ $('#btnEditUser').click(function (){
         '                    <i class="ti-trash"></i>\n' +
         '                </button>\n' +
         '            </td>');
+
       $('#editUsersModalLabel').modal('hide');
     }
   });
@@ -184,7 +186,6 @@ $(document).on('click', '.btnDelete', function (){
 });
 
 //Ajax for user role information
-
 
 // ========== PRODUCT ==========
 
@@ -324,9 +325,11 @@ $(document).on('click', '.btnDeleteProduct ', function () {
 $(document).ready( function () {
   $('#userTable').DataTable();
   $('#manageTable').DataTable();
+  $('#stockTable').DataTable();
 } );
 
 // ========== Movements ===========
+// Ajax gets batch automatically from DB in NewMovement Modal
 $(document).on('blur', '#batchMoviment', function (){
   let id = $('#batchMoviment').val();
   $('#divText').html('');
@@ -340,7 +343,6 @@ $(document).on('blur', '#batchMoviment', function (){
         console.log(response);
         if(response.status === "404"){
           Swal.fire('This batch does not exist yet, a new one will be created');
-          //$('#divText').html('<p>'+ response.message + '</p>');
 
           $('#batchValidity').val('');
           $('#batchValidity').css("pointer-events", "auto");
@@ -351,15 +353,18 @@ $(document).on('blur', '#batchMoviment', function (){
         else {
           $('#batchValidity').val(response.dt_validity);
           $('#batchValidity').css("pointer-events", "none");
+          $('#batchValidity').css("background-color", "#E9ECEF");
 
           $('#batchActive').val(response.active);
           $('#batchActive').css("pointer-events", "none");
+          $('#batchActive').css("background-color", "#E9ECEF");
         }
       }
     });
   }
 });
 
+// Ajax gets product code automatically from DB in NewMovement Modal
 $(document).on('blur', '#movementProductCode', function(){
   let id = $(this).val();
 
@@ -370,23 +375,22 @@ $(document).on('blur', '#movementProductCode', function(){
       data: id,
       success: function (response) {
         if(response.status === "404"){
-          $('#alertText').html('<p>'+ response.message + '</p>');
+          Swal.fire(response.message);
 
           $('#movementProductName').val('');
-          $('#movementProductName').css("pointer-events", "auto");
         }
         else {
           $('#alertText').html('');
           $('#movementProductName').val(response.name);
-          $('#movementProductName').css("pointer-events", "none");
         }
       }
     });
   }
 });
 
-$('.selectpicker').change(function () {
-  let selectedItem = $('.selectpicker').val();
+// Change the option in origin select in Add Modal
+$('.selectPickerAdd').change(function () {
+  let selectedItem = $('.selectPickerAdd').val();
   $('#originMovement').html('');
   if(selectedItem === 'entry'){
     $('#originMovement').css("pointer-events", "auto");
@@ -409,6 +413,14 @@ $('.selectpicker').change(function () {
   }
 });
 
+// JQuery for open modal
+$(document).on('click', '.btnAddMovementModal', function (){
+  $('#addMovementModal').modal('show');
+  $('#movementProductName').css("pointer-events", "none");
+  $('#movementProductName').css("background-color", "#E9ECEF");
+})
+
+// Ajax is creating a New Movement
 $(document).on('click', '#btnAddMovement', function (){
   $.ajax({
     url: '/manage',
@@ -422,24 +434,50 @@ $(document).on('click', '#btnAddMovement', function (){
       }
       $('#tbodyStock').append('' +
         '<tr id="stock_id-'+ response.id + '">' +
-        '<th scope="row">'+ response.id +'</th>' +
-        '<td>'+ response.product_code +'</td>' +
-        '<td>'+ response[0].num_batch +'</td>' +
-        '<td>'+ response[1].type +'</td>' +
-        '<td>'+ response[1].origin +'</td>' +
-        '<td>'+ response[1].qt_product +'</td>' +
-        '<td>'+ response[1].dt_movimentation +'</td>' +
-        '<td>' +
-        '<button type="button" value="'+ response.id +'" class="btnEditMovement btn btn-success" data-toggle="modal" data-target="#editMovement">' +
-        '<i class="ti-pencil"></i>' +
-        '</button>' +
-        '</td>' +
+          '<th scope="row">'+ response.id +'</th>' +
+          '<td>'+ response.product_code +'</td>' +
+          '<td>'+ response[0].num_batch +'</td>' +
+          '<td>'+ response[1].type +'</td>' +
+          '<td>'+ response[1].origin +'</td>' +
+          '<td>'+ response[1].qt_product +'</td>' +
+          '<td>'+ response[1].dt_movimentation +'</td>' +
+          '<td class="d-flex justify-content-around">' +
+            '<button type="button" value="'+ response.id +'" id="btnEditMovement" class="btn btn-success"' +
+            '<i class="ti-pencil"></i>' +
+            '</button>' +
+          '</td>' +
         '</tr>');
       $('#addMovementModal').modal('hide');
     }
   });
 })
 
+// Change the option in origin select in Edit Modal
+$('.selectTypeEdit').change(function () {
+  let selectedItem = $('.selectpicker').val();
+  $('#originMovementEdit').html('');
+  if(selectedItem === 'entry'){
+    $('#originMovementEdit').css("pointer-events", "auto");
+    $('#originMovementEdit').css("background-color", "#fff");
+    $('#originMovementEdit').append('' +
+      '<option value="unifae">Unifae</option>' +
+      '<option value="prefeitura">Prefeitura</option>'
+    );
+  }
+  else if(selectedItem === 'output'){
+    $('#originMovementEdit').append('' +
+      '<option value="none">None</option>'
+    );
+    $('#originMovementEdit').css("pointer-events", "none");
+    $('#originMovementEdit').css("background-color", "#E9ECEF");
+  }
+  else{
+    $('#originMovementEdit').css("pointer-events", "none");
+    $('#originMovementEdit').css("background-color", "#E9ECEF");
+  }
+});
+
+// Ajax is getting info from a Movement
 $(document).on('click', '.btnEditMovement', function (){
   let id = $(this).val()
   $.ajax({
@@ -447,10 +485,10 @@ $(document).on('click', '.btnEditMovement', function (){
     type: 'GET',
     data: id,
     success: function(response) {
-      console.log(response);
       $('#idMovementEdit').val(response.id);
       $('#movementProductCodeEdit').val(response.product_code);
       $('#movementProductNameEdit').val(response.name);
+      $('#movementProductNameEdit').css("pointer-events", "none");
       $('#batchMovimentEdit').val(response.num_batch);
       $('#batchValidityEdit').val(response.dt_validity);
       $('#batchActiveEdit').val(response.active);
@@ -480,70 +518,99 @@ $(document).on('click', '.btnEditMovement', function (){
 
         $('#originMovementEdit').val(response.origin);
       }
+      $('#editMovementModal').modal('show');
     }
   })
 })
 
-$('.selectTypeEdit').change(function () {
-  let selectedItem = $('.selectpicker').val();
-  $('#originMovementEdit').html('');
-  if(selectedItem === 'entry'){
-    $('#originMovementEdit').css("pointer-events", "auto");
-    $('#originMovementEdit').css("background-color", "#fff");
-    $('#originMovementEdit').append('' +
-      '<option value="unifae">Unifae</option>' +
-      '<option value="prefeitura">Prefeitura</option>'
-    );
-  }
-  else if(selectedItem === 'output'){
-    $('#originMovementEdit').append('' +
-      '<option value="none">None</option>'
-    );
-    $('#originMovementEdit').css("pointer-events", "none");
-    $('#originMovementEdit').css("background-color", "#E9ECEF");
-  }
-  else{
-    $('#originMovementEdit').css("pointer-events", "none");
-    $('#originMovementEdit').css("background-color", "#E9ECEF");
-  }
-});
-
-$(document).on('click', '#btnEditMovement', function (){
+// Ajax is editing a Movement
+$(document).on('click', '#btnFormEditMovement', function (){
   let id = $('#idMovementEdit').val();
-
   $.ajax({
     url: '/manage/' + id,
     type: 'POST',
     data: $('#editFormMovement').serialize(), id,
     success: function(response) {
-
-      console.log(response);
       if(response.status === '400'){
         Swal.fire(response.message);
         return false;
       }
 
-      $('#stock_id-' + response[0].id).html('');
-      $('#stock_id-' + response[0].id).append(
-        '<th scope="row">'+ response[0].id +'</th>' +
+      $('#stock_id-' + response['movement'].id_movement).html('');
+      $('#stock_id-' + response['movement'].id_movement).append(
+        '<th scope="row">'+ response['movement'].id_movement +'</th>' +
         '<td>'+ response.product_code +'</td>' +
-        '<td>'+ response[0].num_batch +'</td>' +
+        '<td>'+ response['batch'].num_batch +'</td>' +
         '<td>'+ response.type +'</td>' +
         '<td>'+ response.origin +'</td>' +
-        '<td>'+ response[0].qt_product +'</td>' +
-        '<td>'+ response[0].dt_movimentation +'</td>' +
+        '<td>'+ response['movement'].qt_product +'</td>' +
+        '<td>'+ response['movement'].dt_movimentation +'</td>' +
         '<td class="products-icon">' +
-        '<button type="button" value="'+ response[0].id +'" class="btnEditProduct btn btn-success" data-toggle="modal" data-target="#editProductsModalLabel">' +
+        '<button type="button" value="'+ response['batch'].id +'" class="btnEditMovement btn btn-success" data-toggle="modal" data-target="#editMovementModal">' +
         '<i class="ti-pencil"></i>' +
-        '</button>' +
-
-        '<button type="button" value="'+ response[0].id +'" class="btnDeleteProduct btn btn-danger" data-toggle="modal" data-target="#">' +
-        '<i class="ti-trash"></i>' +
         '</button>' +
         '</td>'
       );
-
-      $('#editMovementModal').modal('hide');
+      $('.editModalTest').modal('hide');
     }
   });
 })
+
+// Ajax gets batch automatically from DB in EditMovement Modal
+$(document).on('blur', '#batchMovimentEdit', function (){
+  let id = $('#batchMovimentEdit').val();
+  $('#divTextEdit').html('');
+
+  if(id){
+    $.ajax({
+      url: "/manage/batches/" + id,
+      type: "GET",
+      data: id,
+      success: function (response) {
+        console.log(response);
+        if(response.status === "404"){
+          Swal.fire('This batch does not exist yet, a new one will be created');
+          //$('#divText').html('<p>'+ response.message + '</p>');
+
+          $('#batchValidityEdit').val('');
+          $('#batchValidityEdit').css("pointer-events", "auto");
+
+          $('#batchActiveEdit').val('');
+          $('#batchActiveEdit').css("pointer-events", "auto");
+        }
+        else {
+          $('#batchValidityEdit').val(response.dt_validity);
+          $('#batchValidityEdit').css("pointer-events", "none");
+
+          $('#batchActiveEdit').val(response.active);
+          $('#batchActiveEdit').css("pointer-events", "none");
+        }
+      }
+    });
+  }
+});
+
+// Ajax gets product code automatically from DB in EditMovement Modal
+$(document).on('blur', '#movementProductCodeEdit', function(){
+  let id = $(this).val();
+
+  if(id){
+    $.ajax({
+      url: "/manage/products/" + id,
+      type: "GET",
+      data: id,
+      success: function (response) {
+        console.log(response);
+        if(response.status === "404"){
+          Swal.fire(response.message);
+
+          $('#movementProductNameEdit').val('');
+        }
+        else {
+          $('#alertText').html('');
+          $('#movementProductNameEdit').val(response.name);
+        }
+      }
+    });
+  }
+});
