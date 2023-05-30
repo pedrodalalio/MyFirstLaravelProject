@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Batch;
 use App\Models\Product;
+use App\Models\Stock;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller{
@@ -41,6 +42,13 @@ class ProductController extends Controller{
         'category' => 'categoria',
         'measurement_units' => $data['measurement_units'],
         'unit_quantity' => $data['unit_quantity'],
+      ]);
+
+      Stock::create([
+        'id_product' => $product[0]->id,
+        'max_stock' => 0,
+        'min_stock' => 0,
+        'qt_stock' => 0,
       ]);
 
       $product[1] = [

@@ -15,8 +15,8 @@ class CreateStocksTable extends Migration{
       $table->id();
       $table->unsignedBigInteger('id_product');
       $table->integer('qt_stock');
-      $table->integer('min_stock');
-      $table->integer('max_stock');
+      $table->integer('min_stock')->nullable();
+      $table->integer('max_stock')->nullable();
       $table->timestamps();
       $table->foreign('id_product')->references('id')->on('products');
     });

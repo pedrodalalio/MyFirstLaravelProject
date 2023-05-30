@@ -72,7 +72,7 @@
                 </div>
                 <div class="form-group col-md-6">
                   <label for="qtMovement">Product Quantity</label>
-                  <input class="form-control" type="number" name="qt_product" id="qtMovement">
+                  <input class="form-control" type="number" name="qt_product" id="qtMovement" min="1">
                 </div>
               </div>
               <div class="form-group">

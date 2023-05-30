@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Stock extends Model
 {
-    use HasFactory;
+  use HasFactory;
 
-    protected $fillable = [
-        'qt_stock',
-        'min_stock',
-        'max_stock',
-    ];
+  protected $fillable = [
+    'id_product',
+    'qt_stock',
+    'min_stock',
+    'max_stock',
+  ];
 }

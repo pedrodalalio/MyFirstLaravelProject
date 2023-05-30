@@ -346,9 +346,11 @@ $(document).on('blur', '#batchMoviment', function (){
 
           $('#batchValidity').val('');
           $('#batchValidity').css("pointer-events", "auto");
+          $('#batchValidity').css("background-color", "#FFF");
 
           $('#batchActive').val('');
           $('#batchActive').css("pointer-events", "auto");
+          $('#batchActive').css("background-color", "#FFF");
         }
         else {
           $('#batchValidity').val(response.dt_validity);
@@ -432,6 +434,9 @@ $(document).on('click', '#btnAddMovement', function (){
       if(response.status === '400'){
         Swal.fire(response.message);
       }
+      if(response.status === '402'){
+        Swal.fire(response.message);
+      }
       $('#tbodyStock').append('' +
         '<tr id="stock_id-'+ response.id + '">' +
           '<th scope="row">'+ response.id +'</th>' +
@@ -442,7 +447,7 @@ $(document).on('click', '#btnAddMovement', function (){
           '<td>'+ response[1].qt_product +'</td>' +
           '<td>'+ response[1].dt_movimentation +'</td>' +
           '<td class="d-flex justify-content-around">' +
-            '<button type="button" value="'+ response.id +'" id="btnEditMovement" class="btn btn-success"' +
+            '<button type="button" value="'+ response.id +'" id="btnEditMovement" class="btn btn-success"'> +
             '<i class="ti-pencil"></i>' +
             '</button>' +
           '</td>' +
@@ -489,6 +494,7 @@ $(document).on('click', '.btnEditMovement', function (){
       $('#movementProductCodeEdit').val(response.product_code);
       $('#movementProductNameEdit').val(response.name);
       $('#movementProductNameEdit').css("pointer-events", "none");
+      $('#movementProductNameEdit').css("background-color", "#E9ECEF");
       $('#batchMovimentEdit').val(response.num_batch);
       $('#batchValidityEdit').val(response.dt_validity);
       $('#batchActiveEdit').val(response.active);

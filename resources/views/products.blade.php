@@ -28,7 +28,7 @@
                 <div class="form-row">
                   <div class="form-group col-md-6">
                     <label for="product_codeAddP">Product code</label>
-                    <input type="text" name="product_code" class="form-control" id="product_codeAddP" placeholder="Product code">
+                    <input type="text" name="product_code" class="form-control" id="product_codeAddP" placeholder="Product code" onkeydown="$(this).mask('000.000.0000');">
                   </div>
 
                   <div class="form-group col-md-6">

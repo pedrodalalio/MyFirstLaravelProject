@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Batch;
 use App\Models\Movimentation;
 use App\Models\Product;
+use App\Models\Stock;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
@@ -59,7 +60,7 @@ class MovimentController extends Controller{
         'dt_validity' => 'required',
         'active' => 'required',
         'origin' => 'required',
-        'qt_product' => 'required',
+        'qt_product' => 'required|numeric|gt:0',
         'dt_movimentation' => 'required',
       ]);
 
@@ -90,6 +91,25 @@ class MovimentController extends Controller{
         'dt_movimentation' => $data['dt_movimentation'],
       ]);
 
+      if($data['type'] === 'entry'){
+        $stock = Stock::query()->firstWhere('id_product', '=', $product->id);
+        $total = $stock->qt_stock;
+        $total += $data['qt_product'];
+
+        Stock::query()->findOrFail($stock->id)->update([
+          'qt_stock' => $total,
+        ]);
+      }
+      else{
+        $stock = Stock::query()->firstWhere('id_product', '=', $product->id);
+        $total = $stock->qt_stock;
+        $total -= $data['qt_product'];
+
+        Stock::query()->findOrFail($stock->id)->update([
+          'qt_stock' => $total,
+        ]);
+      }
+
       $res[1]->dt_movimentation = date('d/m/Y', strtotime($res[1]->dt_movimentation));
       $res['product_code'] = $data['product_code'];
       $res['id'] = $res[1]->id;
@@ -97,6 +117,7 @@ class MovimentController extends Controller{
       return response()->json($res);
     }
     catch (\Exception $e){
+      dd($e->getMessage());
       $res = [
         'status' => '400',
         'message' => 'Error To Create',

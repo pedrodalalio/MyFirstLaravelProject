@@ -58,7 +58,6 @@ Route::middleware([
   });
 
   Route::group(['middleware' => ['role:add products']], function () {
-
     //This controller is creating new product in DB
     Route::post('/produtos', [ProductController::class, 'create']);
   });
