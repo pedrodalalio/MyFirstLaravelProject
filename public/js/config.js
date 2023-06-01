@@ -437,7 +437,8 @@ $(document).on('click', '#btnAddMovement', function (){
       if(response.status === '402'){
         Swal.fire(response.message);
       }
-      $('#tbodyStock').append('' +
+
+      $('#tbodyStock').append(
         '<tr id="stock_id-'+ response.id + '">' +
           '<th scope="row">'+ response.id +'</th>' +
           '<td>'+ response.product_code +'</td>' +
@@ -447,11 +448,12 @@ $(document).on('click', '#btnAddMovement', function (){
           '<td>'+ response[1].qt_product +'</td>' +
           '<td>'+ response[1].dt_movimentation +'</td>' +
           '<td class="d-flex justify-content-around">' +
-            '<button type="button" value="'+ response.id +'" id="btnEditMovement" class="btn btn-success"'> +
+            '<button type="button" value="'+ response.id +'" id="btnEditMovement" class="btn btn-success">' +
             '<i class="ti-pencil"></i>' +
             '</button>' +
           '</td>' +
         '</tr>');
+
       $('#addMovementModal').modal('hide');
     }
   });
@@ -619,4 +621,62 @@ $(document).on('blur', '#movementProductCodeEdit', function(){
       }
     });
   }
+});
+
+// ============ STOCK ==============
+
+// Ajax to edit stock info
+$(document).on('click', '.btnEditStock', function (){
+  let id = $(this).val();
+
+  $.ajax({
+    url: "/stock/" + id,
+    type: "GET",
+    data: id,
+    success: function (response) {
+      $('#editStock').modal('show');
+
+      $('#idStock').val(response.id);
+      $('#productCodeStock').val(response['product'].product_code);
+      $('#nameStock').val(response['product'].name);
+      $('#minStock').val(response.min_stock);
+      $('#maxStock').val(response.max_stock);
+      $('#qtStock').val(response.qt_stock);
+
+      $('#productCodeStock').css("pointer-events", "none");
+      $('#productCodeStock').css("background-color", "#E9ECEF");
+
+      $('#nameStock').css("pointer-events", "none");
+      $('#nameStock').css("background-color", "#E9ECEF");
+
+      $('#qtStock').css("pointer-events", "none");
+      $('#qtStock').css("background-color", "#E9ECEF");
+    }
+  });
+});
+
+$(document).on('click', '#btnFormEditStock', function (){
+  let id = $('#idStock').val();
+  $.ajax({
+    url: "/stock/" + id,
+    type: "POST",
+    data: $('#editFormStock').serialize(), id,
+    success: function (response) {
+      $('#trStock-' + response.id).html("");
+      $('#trStock-' + response.id).append('' +
+        '<th scope="row">'+ response.product_code + '</th>' +
+        '<td>'+ response.name + '</td>' +
+        '<td>'+ response.min_stock + '</td>' +
+        '<td>'+ response.max_stock + '</td>' +
+        '<td>'+ response.qt_stock + '</td>' +
+        '<td class="d-flex justify-content-around">' +
+          '<button value="'+ response.id +'" class="btnEditStock btn btn-success">' +
+            '<i class="ti-pencil"></i>' +
+          '</button>' +
+        '</td>'
+      );
+
+      $('#editStock').modal('hide');
+    }
+  });
 });

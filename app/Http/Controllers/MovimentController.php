@@ -177,6 +177,25 @@ class MovimentController extends Controller{
         'dt_movimentation' => $data['dt_movimentation'],
       ]);
 
+      if($data['type'] === 'entry'){
+        $stock = Stock::query()->firstWhere('id_product', '=', $product->id);
+        $total = $stock->qt_stock;
+        $total += $data['qt_product'];
+
+        Stock::query()->findOrFail($stock->id)->update([
+          'qt_stock' => $total,
+        ]);
+      }
+      else{
+        $stock = Stock::query()->firstWhere('id_product', '=', $product->id);
+        $total = $stock->qt_stock;
+        $total -= $data['qt_product'];
+
+        Stock::query()->findOrFail($stock->id)->update([
+          'qt_stock' => $total,
+        ]);
+      }
+
       $res['movement']['dt_movimentation'] = date('d/m/Y', strtotime($res['movement']['dt_movimentation']));
       $res['product_code'] = $data['product_code'];
       $res['type'] = $data['type'];

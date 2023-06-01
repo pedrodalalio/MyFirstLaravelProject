@@ -58,7 +58,7 @@
                                 </li>
 
                                 <li>
-                                    <a href="javascript:void(0)" aria-expanded="true"><i class="ti-exchange-vertical"></i><span>Movimentation</span></a>
+                                    <a href="javascript:void(0)" aria-expanded="true"><i class="ti-exchange-vertical"></i><span>Movements</span></a>
                                     <ul class="collapse">
                                         <li><a href="{{route('manage')}}">Manage</a></li>
                                     </ul>

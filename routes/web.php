@@ -87,6 +87,9 @@ Route::middleware([
 
   Route::get('/stock', [StockController::class, 'index'])->name('stock');
 
+  Route::get('/stock/{id}', [StockController::class, 'showItems']);
+  Route::post('/stock/{id}', [StockController::class, 'update']);
+
   Route::get('/manage', [MovimentController::class, 'index'])->name('manage');
   Route::post('/manage', [MovimentController::class, 'create']);
 
